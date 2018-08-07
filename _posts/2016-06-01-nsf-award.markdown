@@ -1,0 +1,7 @@
+---
+layout: post
+title: "NSF award to support the development of Parsl"
+date:  2016-06-01 10:13:16 -0700
+type: award
+---
+NSF Awarded funding to develop a workflow ecosystem: [SI2-SSI: Swift/E: Integrating Parallel Scripted Workflow into the Scientific Software Ecosystem](https://www.nsf.gov/awardsearch/showAward?AWD_ID=1550588&HistoricalAwards=false)

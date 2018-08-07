@@ -1,0 +1,7 @@
+---
+layout: post
+title: "We are actively looking for developers to help build Parsl"
+date:  2017-09-01 10:13:16 -0700
+type: join
+---
+We are actively looking for developers, postdocs, and students to help develop Parsl. [Join our team.](https://jobopportunities.uchicago.edu/applicants/jsp/shared/position/JobDetails_css.jsp?postingId=683259)

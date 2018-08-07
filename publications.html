@@ -1,0 +1,157 @@
+---
+layout: default
+title: Parsl A Parallel Scripting Library for Python
+---
+
+<script src="js/parser.js"></script>
+<!--<script src="js/jquery.min.js"></script>-->
+
+<script>
+
+function get_format(data, field, pre, post){
+    if (field in data && data[field] != ""){
+        return pre + data[field] + post;
+    }
+    return "";
+}
+
+function format_bib(data){
+    formated = $("<div>", {"class" : "ref-text"}); 
+    var authors = data["Fields"]["author"].split("and");
+    var author_string = "";
+    for (var i = 0, len = authors.length; i < len; i++) {
+	author_string += authors[i].trim();
+	if (i < authors.length - 2){
+		author_string += ', ';
+	} else if (i == authors.length - 2){
+		author_string += ' and ';
+	}
+    } 
+    if (author_string.endsWith(".")){
+      author_string = author_string.substring(0, author_string.length - 1);
+    }
+    formated.append($("<span>", {"text" : author_string + ". ", "class" : "authors"}));
+    
+    var title = $("<span>", {"text" : "\"" + data["Fields"]["title"] + ".\" "})
+    if ("url" in data["Fields"]){
+        title = $("<a>", {"text" : "\"" + data["Fields"]["title"] + ".\" ", "href" : data["Fields"]["url"]})
+    }
+
+    formated.append(title);
+    
+    var journal_conference = ""
+    if (data["EntryType"] == "article"){
+        journal_conference += data["Fields"]["journal"];
+    } else if (data["EntryType"] == "inproceedings"){
+        journal_conference += data["Fields"]["booktitle"] ;
+    } else if (data["EntryType"] == "incollection"){
+        journal_conference += data["Fields"]["booktitle"];
+    }
+    
+    journal_conference += get_format(data["Fields"], "volume", ". ", "");
+    journal_conference += get_format(data["Fields"], "number", "(", ")");
+    journal_conference += get_format(data["Fields"], "pages", ". pp ", "");
+    journal_conference += get_format(data["Fields"], "year", ". ", ".");
+
+    formated.append($("<span>", {"text" : journal_conference}));
+    return formated; 
+}
+$( document ).ready(function() {
+
+   var display_bib = function(data) {
+       var paper = $("<div>", {"id" : data['EntryKey'], "class": "ref-holder"});
+       var ref_text =  format_bib(data);
+       var download_links = $("<div>", {"class": "ref-download"});
+       
+       if ('note' in data['Fields']){
+           var pdf_img = $("<img>", {"src" : 'images/pdf.png', "class": "ref-image"});
+           var pdf_link = $("<a>", {"href": "publications/" + data["Fields"]["note"]});
+           pdf_link.append(pdf_img);
+           download_links.append(pdf_link);
+       }
+       /*if (True){
+           var bib_img = $("<img>", {"src" : 'images/bibtex.png', "class": "ref-image"})
+       }*/
+       paper.append(ref_text).append(download_links);
+       $("#paper-div").append(paper)
+   }
+
+   $.get( "publications/ParslPubs.bib", function( data ) {
+       var parser = BibtexParser(display_bib);
+       parser.parse(data);
+   });
+
+});
+
+
+
+</script>
+
+<style>
+.ref-holder {
+  display: inline-block;
+  width: 100%;
+}
+.ref-text {
+  width: 93%;
+  float: left;
+}
+.ref-download {
+  float: right;
+}
+.ref-image{
+  width:30px;
+  padding-left: 5px;
+}
+</style>
+
+
+<div class="container support" style="margin-top: 10px;">
+  
+  <div class="row" style="padding-top: 20px">
+    <div class="col-lg-12">
+      <h2>Publications</h2>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <h3>Citing Parsl</h3>
+      <p>Please cite the following publication in any published research that uses Parsl:</p>
+      <p>Babuji, Y., Brizius, A., Chard, K., Foster, I., Katz, D.S., Wilde, M., &amp;
+      Wozniak, J.. (2017, August 30). Introducing Parsl: A Python Parallel Scripting Library. 
+      Zenodo. <a href="http://doi.org/10.5281/zenodo.853491">http://doi.org/10.5281/zenodo.853491</a>. 
+    </div>
+   </div>
+
+<div class="row">
+    <div class="col-lg-12">
+		<h3>Recent Presentations</h3>
+                <div class="media col-sm-12">
+                    <div class="media-body">
+                        <p>Chard, K. <a href="http://bit.ly/2HhRtmT">Parsl: A Parallel Scripting Library for Python</a>,
+			National Center for Supercomputing Applications, University of Illinois at Urbana-Champagin,
+			Feb 2, 2018.</p>
+			<p>Katz, D. Parsl: A Parallel Scripting Library for Python</a>,
+			Barcelona Supercomputing Center,
+			Jan 22, 2017.</p>
+			<p>Chard, K. <a href="https://drive.google.com/file/d/1rBJwa0zHKlcLtQLIP2VTB9Lj2bF4zN-u/view?usp=sharing">Parsl: A Parallel Scripting Library for Python</a>,
+			Advanced Photon Source, Argonne National Laboratory,
+			Dec 20, 2017.</p>
+			<p>Chard, K. Introducing Parsl: A Parallel Scripting Library for Python</a>,
+			Dark Energy Science Collaboration Hack Week, Argonne National Laboratory,
+			Dec 4-8, 2017.</p>
+                    </div>
+                 </div>	
+
+<div class="row">
+    <div class="col-lg-12">	
+                 <h3>All Papers</h3>
+		 <div class="media col-sm-12">
+                    <div class="media-body">
+                       <div id="paper-div"></div>  
+                    </div>
+                 </div>
+            </div>
+       </div>
+  </div>
