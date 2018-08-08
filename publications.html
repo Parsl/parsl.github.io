@@ -15,6 +15,15 @@ function get_format(data, field, pre, post){
     return "";
 }
 
+function get_bib(data){
+    var formated = "@" + data['EntryType'] + "{" + data['EntryKey'] + ",\n";
+    $.each( data["Fields"], function( key, value ) {
+        formated += key + " = {" + value + "},\n";
+    });
+    formated += "}"
+    return formated;
+}
+
 function format_bib(data){
     formated = $("<div>", {"class" : "ref-text"}); 
     var authors = data["Fields"]["author"].split("and");
@@ -59,6 +68,7 @@ function format_bib(data){
 $( document ).ready(function() {
 
    var display_bib = function(data) {
+       //console.log(data)
        var paper = $("<div>", {"id" : data['EntryKey'], "class": "ref-holder"});
        var ref_text =  format_bib(data);
        var download_links = $("<div>", {"class": "ref-download"});
@@ -69,9 +79,12 @@ $( document ).ready(function() {
            pdf_link.append(pdf_img);
            download_links.append(pdf_link);
        }
-       /*if (True){
+       //if (True){
            var bib_img = $("<img>", {"src" : 'images/bibtex.png', "class": "ref-image"})
-       }*/
+           var bib_link = $("<a>", {'href': 'data:text/plain;charset=utf-8,' + encodeURIComponent(get_bib(data)), 'download' :data['EntryKey'] + '.bib'});
+           bib_link.append(bib_img);
+           download_links.append(bib_link);
+       //}
        paper.append(ref_text).append(download_links);
        $("#paper-div").append(paper)
    }
