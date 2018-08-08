@@ -1,0 +1,7 @@
+---
+layout: post
+title: "Parsl 0.6 released"
+date:  2018-07-24 10:13:16 -0700
+type: news
+---
+[Parsl 0.6.1](https://pypi.python.org/pypi/parsl) version released with class-based configuration, implicit data staging, real-time usage tracking, and more. 
