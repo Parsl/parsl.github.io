@@ -1,0 +1,184 @@
+---
+layout: default
+title: Parsl A Parallel Scripting Library for Python
+---
+
+<div class="container support" style="margin-top: 10px;">
+  
+  <div class="row" style="padding-top: 20px">
+    <div class="col-lg-12">
+      <h2>News</h2>
+
+    {% for n in site.posts %}
+
+      <div class="news-info">
+            <p><span class="name">{{ n.date | date: '%B %d, %Y' }}: </span>
+            {{ n.content }}</p>
+      </div>
+
+    {% endfor %}
+    
+      <div class="news-info">
+        <p><span class="name">January 25, 2019</span>
+        Parsl participated in the <a href='https://scimma.org/'>SciMMA Community planning for Scalable Cyberinfrastructure to support Multi-Messenger Astrophysics>/a>.
+        </p>
+      </div>
+
+    <div class="news-info">
+        <p><span class="name">December 11, 2018</span>
+        Parsl participated in the BioExcel/MolSSI Workshop on Workflows in Biomolecular Simulations .
+      </p>
+      </div>
+      
+   <div class="news-info">
+        <p><span class="name">November 11, 2018</span>
+        Connor Pigg presented a poster about monitoring in Parsl in the SC18 Student Research Competition.
+        </p>
+      </div>
+      
+<div class="news-info">
+        <p><span class="name">October 5, 2018</span>
+Parsl lightning talk at CASC Fall 2018 Meeting
+        </p>
+      </div>
+      
+<div class="news-info">
+        <p><span class="name">August 23, 2018</span>
+Ian Foster’s presentation on collaborative science with Juypter and Globus at JupyterCon 2018 highlights Parsl’s ability to scale science applications.
+        </p>
+      </div>
+      
+<div class="news-info">
+        <p><span class="name">August 16, 2018</span>
+Article describing how researchers at Argonne National Laboratory are using machine learning and Parsl to accelerate science. Read more.
+        </p>
+      </div>
+      
+<div class="news-info">
+        <p><span class="name">July 14, 2018</span>
+Parsl 0.6.1 version released with class-based configuration, implicit data staging, real-time usage tracking, and more.
+        </p>
+      </div>
+      
+<div class="news-info">
+        <p><span class="name">July 17, 2018</span>
+Parsl presentation at workshop on Geospatial Use Cases and Core Technical Capabilities
+        </p>
+      </div>
+      
+<div class="news-info">
+        <p><span class="name">July 13, 2018</span>
+Parsl: Enabling Scalable Interactive Computing in Python presentation at SciPy 2018.
+        </p>
+      </div>
+      
+<div class="news-info">
+        <p><span class="name">July 9, 2018</span>
+Parsl presentation at CHEP 2018 using Parsl for HEP.
+        </p>
+      </div>
+      
+<div class="news-info">
+        <p><span class="name">June 30, 2018</span>
+Parsl presentation and tutorial at workshop on Data Visualization and Exploration in the LSST Era
+        </p>
+      </div>
+      
+<div class="news-info">
+        <p><span class="name">June 11, 2018</span>
+Parsl poster accepted at Third RSE Conference (RSE 2018).
+        </p>
+      </div>
+      
+<div class="news-info">
+        <p><span class="name">May 23, 2018</span>
+Parsl seminar at Notre Dame.
+        </p>
+      </div>
+      
+<div class="news-info">
+        <p><span class="name">April 18, 2018</span>
+Parsl paper accepted at IWSG 2018.
+        </p>
+      </div>
+      
+<div class="news-info">
+        <p><span class="name">April 18, 2018</span>
+Parsl abstract accepted for presentation at SciPy2018.
+        </p>
+      </div>
+      
+<div class="news-info">
+        <p><span class="name">April 16, 2018</span>
+Parsl 0.5.0 version released with Globus transfers, Docker containers, automatic checkpointing, and more.
+        </p>
+      </div>
+      
+<div class="news-info">
+        <p><span class="name">March 15, 2018</span>
+Catch our presentation about Parsl for HEP workflows using containers at CHEP 2018.
+        </p>
+      </div>
+      
+<div class="news-info">
+        <p><span class="name">February 5, 2018</span>
+Parsl 0.4.0 version released with automatic elasticity, multi-site support, and caching.
+        </p>
+      </div>
+      
+<div class="news-info">
+        <p><span class="name">February 2, 2018</span>
+Parsl presentation at UIUC/NCSA in room 1040.
+        </p>
+      </div>
+      
+<div class="news-info">
+        <p><span class="name">November 22, 2017</span>
+Overview: The Computation Institute at SC17.
+        </p>
+      </div>
+      
+<div class="news-info">
+        <p><span class="name">November 17, 2017</span>
+NCSA wins top supercomputing achievement and a best use of HPC in 2017 HPCWire Editors' Choice Awards.
+        </p>
+      </div>
+      
+<div class="news-info">
+        <p><span class="name">September 1, 2017</span>
+We are actively looking for developers, postdocs, and students to help develop Parsl. Join our team.
+        </p>
+      </div>
+      
+<div class="news-info">
+        <p><span class="name">August 29, 2017</span>
+Extended abstract about Parsl published on Zenodo: Introducing Parsl: A Python Parallel Scripting Library
+        </p>
+      </div>
+      
+<div class="news-info">
+        <p><span class="name">August 20, 2017</span>
+Paper using Parsl accepted for publication. O. Sode and J. N. Cherry, “Development of a flexible-monomer two-body carbon dioxide potential and its application to clusters up to (CO2)13,” J. Comput. Chem.
+        </p>
+      </div>
+      
+<div class="news-info">
+        <p><span class="name">June 19, 2017</span>
+We are presenting a poster about Parsl at the Second Annual Crops in silico syposium and workshop
+        </p>
+      </div>
+      
+<div class="news-info">
+        <p><span class="name">June 14, 2017</span>
+Software Sustainability Institute blog about Parsl and Swift’s use in the ArcticDEM project
+        </p>
+      </div>
+      
+    <div class="news-info">
+        <p><span class="name">June 1, 2016</span>
+      NSF Awarded funding to develop a workflow ecosystem: SI2-SSI: Swift/E: Integrating Parallel Scripted Workflow into the Scientific Software Ecosystem
+      </p>
+      </div>
+
+  </div>
+</div>
