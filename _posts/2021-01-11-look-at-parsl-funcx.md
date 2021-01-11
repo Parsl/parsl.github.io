@@ -214,51 +214,109 @@ is read and the image is returned.
 
 <img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture22.png" width="40%" style="border:1px solid black;">
 
-
-
 The result is the view from the camera of part of the office where it sits.
 
 <img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture23.png" width="30%" style="border:1px solid black;">
 
 ## FuncX on Kubernetes
 
-TODO-HERE
-
-In the examples below we will demonstrate the use of FuncX with a small Kubernetes cluster.  More specifically we will deploy a deep learning (BERT-based) document classifier as a function and do  some simple performance analysis.  The appendix at the end of this document give the instructions for installing Kubernetes on the Docker distribution on your laptop and also on Azure.  The typical application of Kubernetes involves running Docker-style containers on each node of the cluster. We are going to create a special container that contains our BERT classifier model that will be loaded as the worker.   Our goal is to run as many instances of the classifier in parallel as possible.  
+In the examples below we will demonstrate the use of FuncX with a small Kubernetes cluster.  More specifically we will deploy
+a deep learning (BERT-based) document classifier as a function and do  some simple performance analysis.  The appendix at the
+end of this document give the instructions for installing Kubernetes on the Docker distribution on your laptop and also on
+Azure.  The typical application of Kubernetes involves running Docker-style containers on each node of the cluster. We are
+going to create a special container that contains our BERT classifier model that will be loaded as the worker.   Our goal is
+to run as many instances of the classifier in parallel as possible.  
 
 ### The BERT classifier
 
-The classifier that we are going to use as our test case is described in a previous post.    The classifier takes as input a text abstract of a science paper posted on ArXiv and classifies it as being either Math, Physics, Computer Science, Biology or Finance.   The classifier was trained on a subset of the document abstracts.  In this case we start with a pretrained BERT model, so for classification we only have to fine-tune an extra layer.
+The classifier that we are going to use as our test case is described in a
+[previous post](https://cloud4scieng.org/modeling-natural-language-with-transformers-bert-roberta-and-xlnet/).
+The classifier takes as input
+a text abstract of a science paper posted on ArXiv and classifies it as being either Math, Physics, Computer Science,
+Biology or Finance.   The classifier was trained on a subset of the document abstracts.  In this case we start with a
+pretrained BERT model, so for classification we only have to fine-tune an extra layer.
  
+<div align="center">
+<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture24.png" width="40%" style="border:1px solid black;">
+
 Figure 5.  BERT modified with classifier layer.
-Using the simpletransformers library, the training was done with two line of code:
+</div><p>
+
+Using the [simpletransformers](https://towardsdatascience.com/simple-transformers-named-entity-recognition-with-transformer-models-c04b9242a2a0)
+library, the training was done with two line of code:
+
+<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture25.png" width="50%" style="border:1px solid black;">
+
+
+The model is trained on a pandas dataframe of 4500 (abstract, classification) pairs.  We will test it on 2600 additional
+abstracts.
+
+The model along with the python code that will load data and do the classification was saved in a directory “classifier”.
+To build the Docker container we will run on the cluster we need to start with a container with a good Python 3
+implementation.  Next we have to install the torch and simpletransformers library and our classifier directory are loaded
+and we copy the classifier.py program to the root level.  Next we need to install the funcx-endpoint code.  The complete
+Docker file is shown below.
  
-The model is trained on a pandas dataframe of 4500 (abstract, classification) pairs.  We will test it on 2600 additional abstracts.  
-The model along with the python code that will load data and do the classification was saved in a directory “classifier”.  To build the Docker container we will run on the cluster we need to start with a container with a good Python 3 implementation.  Next we have to install the torch and simpletransformers library and our classifier directory are loaded and we copy the classifier.py program to the root level.  Next we need to install the funcx-endpoint code.  The complete Docker file is shown below.
- 
+<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture26.png" width="50%" style="border:1px solid black;">
+
 If you want to experiment with this container it is in the Docker repo as dbgannon/classify.
+
 The classifier.py program, has two methods for doing inference:
-•	classifys( list-of-abtract-texts ) which takes a list of 1 or more texts of the paper abstracts and returns a  predicted classification.
-•	classify(list-of-abstract-IDs) with take a list of abstract IDs and returns a predicted classification and the actual classification which has been looked up by the abstract ID.
+
+*	classifys( list-of-abtract-texts ) which takes a list of 1 or more texts of the paper abstracts and returns a  predicted classification.
+*	classify(list-of-abstract-IDs) with take a list of abstract IDs and returns a predicted classification and the actual classification which has been looked up by the abstract ID.
+
 The function to send a list of abstract strings to the classifier is
- 
+
+<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture27.png" width="35%" style="border:1px solid black;">
+
 If we let “s” be the string
-'We show that effective theories of matter that classically violate the null energy condition cannot be minimally coupled to Einstein gravity without being inconsistent with both string theory and black hole thermodynamics. We argue however that they could still be either non-minimally coupled or coupled to higher-curvature theories of gravity.'
+
+<pre>
+'We show that effective theories of matter that classically violate the null energy condition cannot be
+minimally coupled to Einstein gravity without being inconsistent with both string theory and black hole
+thermodynamics. We argue however that they could still be either non-minimally coupled or coupled to
+higher-curvature theories of gravity.'
+</pre>
 
 and run this on the classifier through FuncX we get
- 
+
+<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture28.png" width="45%" style="border:1px solid black;">
+
 which returns 2, the correct classification (Physics).  (The true and false values are results from the pending queries.)   To do the performance evaluation we will use the other function which allows us to send a list of document ids.  This makes us able to send longer lists (because FuncX has a limit on the size of messages).  The following is an example.
- 
+
+<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture29.png" width="60%" style="border:1px solid black;">
+
 The reply gives the predicted classification and the actual classification.   Notice they agree except in position 6 which corresponds to document 890:
-'For a paradigmatic model of chemotaxis, we analyze the effect how a nonzero affinity driving receptors out of equilibrium affects sensitivity. This affinity arises whenever changes in receptor activity involve ATP hydrolysis. The sensitivity integrated over a ligand concentration range is shown to be enhanced by the affinity, providing a measure of how much energy consumption improves sensing. With this integrated sensitivity we can establish an intriguing analogy between sensing with nonequilibrium receptors and kinetic proofreading: the increase in integrated sensitivity is equivalent to the decrease of the error in kinetic proofreading. The influence of the occupancy of the receptor on the phosphorylation and dephosphorylation reaction rates is shown to be crucial for the relation between integrated sensitivity and affinity. This influence can even lead to a regime where a nonzero affinity decreases the integrated sensitivity, which corresponds to anti-proofreading.'
 
-The classifier predicted 3 = Biology.  The correct classification (according to the authors who submitted it to ArXiv) is 2=Physics. ( I too would have gotten that one wrong.)
+<pre>
+'For a paradigmatic model of chemotaxis, we analyze the effect how a nonzero affinity driving receptors out of
+equilibrium affects sensitivity. This affinity arises whenever changes in receptor activity involve ATP hydrolysis.
+The sensitivity integrated over a ligand concentration range is shown to be enhanced by the affinity, providing a
+measure of how much energy consumption improves sensing. With this integrated sensitivity we can establish an
+intriguing analogy between sensing with nonequilibrium receptors and kinetic proofreading: the increase in integrated
+sensitivity is equivalent to the decrease of the error in kinetic proofreading. The influence of the occupancy of the
+receptor on the phosphorylation and dephosphorylation reaction rates is shown to be crucial for the relation between
+integrated sensitivity and affinity. This influence can even lead to a regime where a nonzero affinity decreases the
+integrated sensitivity, which corresponds to anti-proofreading.'
+</pre>
 
-Now that we have our Kubernetes cluster, we can run many invocations of this function in parallel and see how it performs.   The cluster we are using has only five nodes, each with 2 cores, but only one copy of the container can fit on each node.  One of the beauties of FuncX is that when it gets to many request it automatically spawn a new worker (which are called Pods in Kubernetes).   Using the Kubernetes dashboard we can see what it looks like when we have the system loaded with parallel requests.
- 
+The classifier predicted 3 = Biology.  The correct classification (according to the authors who submitted it to ArXiv)
+is 2=Physics. (I too would have gotten that one wrong.)
+
+Now that we have our Kubernetes cluster, we can run many invocations of this function in parallel and see how it performs.
+The cluster we are using has only five nodes, each with 2 cores, but only one copy of the container can fit on each node.
+One of the beauties of FuncX is that when it gets to many requests it automatically spawn a new worker (which are called Pods
+in Kubernetes).   Using the Kubernetes dashboard we can see what it looks like when we have the system loaded with parallel
+requests.
+
+<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture30.png" width="50%" style="border:1px solid black;">
+
 We have only 5 nodes, so each node has one copy of the classifier container running as funcx-…. One node is also running the endpoint server.   We should also note that when not receiving new requests the endpoint manager starts killing off un-needed workers and the number of deployed pods drops.   
 
 ### A Performance Experiment.
+
+TODO-HERE
 
 If you divide a fixed number of independent tasks between P processor in parallel the the total time to execute them should drop by a factor of P.   Let’s check that with our classifier.  We consider our set of tasks to be 250 document abstracts.  We have created an array of document indexes called vals_string.  Vals_string[ n-1] contains 250/n of the documents for n in the range 1 to 10.  In the code below we launch p instances of our funcx_impl2 each working on vals_sting[ p – 1].  Then we wait for them all to finish.  We do this with p in the range of 1 to 10.   
  
