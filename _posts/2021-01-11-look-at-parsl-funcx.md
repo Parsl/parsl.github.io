@@ -89,7 +89,7 @@ instances gives us the following.
 
 <img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture7.png" width="40%" style="border:1px solid black;">
 
-## Compared to Dask
+### Compared to Dask
 In many ways Parsl is like Python Dask (which we wrote about in a 2018 [blog article](https://esciencegroup.com/2018/05/17/parallel-programming-in-the-cloud-with-python-dask/).)
 Dask is heavily integrated into the python stack.   Numpy and Pandas smoothly interoperate with Dask.  
 For the embarrassingly parallel bag-of-tasks applications Dask has a feature called dask.bag (db below).  
@@ -135,37 +135,99 @@ the FuncX client  and bind a function to it, you simply do the following.
 
 <img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture13.png" width="40%" style="border:1px solid black;">
 
-TODO-HERE
-
 Once we have registered the function with the FuncX client and when  we have the FuncX endpoint we can run the function. 
  
- 
-As shown above the run method returns a uuid for the result which can be passed to the client object to obtain the execution status and eventually the result.   What is not obvious from this example is where the host endpoint comes from and how does the client convey the task to the host for execution.
-The FuncX paper describes the architecture in detail, so we will not dwell on it here.  In simple terms, requests from the client (fxc above) to run a function are sent to an AWS-based web service which puts the request into a task queue in Redis for the specified endpoint. A "forwarder process" in AWS monitors the redis queue then sends the request to the remote endpoint agent (the funcx-endpoint process running on the endpoint host). The endpoint process, called the funcx-manager distributes tasks to processes called funcx-workers that carries out the execution and returns the result.    The fact that this is all managed through a cloud-based web service is very impressive.  It is very fast and reliable. 
-FuncX on Nvidia Jetson Nano
-The Nvidia Jetson Nano is a tiny, but powerful computer for embedded applications and AI. It has a Quad-core ARM Cortex-A57 MPCore processor, 128 NVIDIA CUDA® cores and 4GB memory.  Installing a FuncX end point on the Nano is easy.  Just follow the steps in the docs.  At the end of the installation, you will have the endpoint uuid. An important application of FuncX is to use it to probe an edge device and read instruments or use special features that the device provides.  Because the Nano has an Nvidia GPU (and my laptop doesn’t) why not ship computation to the nano?  Here is a trivial example.   KMeans clustering is a standard ML algorithm that clusters points in space into a given number of nearby sets.  KMeans also involves lots of vector operations so it is suitable for execution in a GPU.  We have a program kmeans.py that contains four functions:
-•	random_init  which initializes a random partition of the points in set by giving each point a code.
-•	update_centers calculates the “center of gravity” of each set of points.
-•	Compute_codes uses the current set of center points to reclassify each point according to the new centers.
-•	Cluster is the main function that uses iteration to over the set of centers and codes
+<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture14.png" width="50%" style="border:1px solid black;">
+
+<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture15.png" width="50%" style="border:1px solid black;">
+
+
+As shown above the run method returns a uuid for the result which can be passed to the client object to obtain the
+execution status and eventually the result.   What is not obvious from this example is where the host endpoint comes
+from and how does the client convey the task to the host for execution.
+
+The FuncX paper describes the architecture in detail, so we will not dwell on it here.  In simple terms, requests from
+the client (fxc above) to run a function are sent to an AWS-based web service which puts the request into a task queue
+in Redis for the specified endpoint. A "forwarder process" in AWS monitors the redis queue then sends the request to
+the remote endpoint agent (the funcx-endpoint process running on the endpoint host). The endpoint process, called the
+funcx-manager distributes tasks to processes called funcx-workers that carries out the execution and returns the result.
+The fact that this is all managed through a cloud-based web service is very impressive.  It is very fast and reliable. 
+
+## FuncX on Nvidia Jetson Nano
+
+The Nvidia Jetson Nano is a tiny, but powerful computer for embedded applications and AI. It has a
+Quad-core ARM Cortex-A57 MPCore processor, 128 NVIDIA CUDA® cores and 4 GB memory.  Installing a FuncX end point on the
+Nano is easy.  Just follow the [steps](https://funcx.readthedocs.io/en/latest/endpoints.html) in the docs.  At the end of
+the installation, you will have the endpoint uuid. An important application of FuncX is to use it to probe an edge device
+and read instruments or use special features that the device provides.  Because the Nano has an Nvidia GPU (and my laptop
+doesn’t) why not ship computation to the nano?  Here is a trivial example.   KMeans clustering is a standard ML algorithm
+that clusters points in space into a given number of nearby sets.  KMeans also involves lots of vector operations so it is
+suitable for execution in a GPU.  We have a program kmeans.py that contains four functions:
+
+*	random_init  which initializes a random partition of the points in set by giving each point a code.
+*	update_centers calculates the “center of gravity” of each set of points.
+*	Compute_codes uses the current set of center points to reclassify each point according to the new centers.
+*	Cluster is the main function that uses iteration to over the set of centers and codes
+
 For FuncX we will execute Cluster remotely from our laptop.   It is shown below.
- 
-There are two important points to notice here.  First is that we must import all the needed libraries inside the scope of the function because they may not be available in the worker execution environment on the remote host.  Second, we note that we need to import the three additional functions from kmeans.py which is stored as the file “/home/jetbot/kmeans.py”  on the remote machine.  The inputs to the cluster function consist of the array of data, the number partitions and a Boolean flag which signals to use the GPU or CPU to do the computation.  
+
+<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture16.png" width="50%" style="border:1px solid black;">
+
+There are two important points to notice here.  First is that we must import all the needed libraries inside the scope of
+the function because they may not be available in the worker execution environment on the remote host.  Second, we note
+that we need to import the three additional functions from kmeans.py which is stored as the file “/home/jetbot/kmeans.py”
+on the remote machine.  The inputs to the cluster function consist of the array of data, the number partitions and a Boolean
+flag which signals to use the GPU or CPU to do the computation.  
+
 Running the function with 400000 random points in 2-d space looking for 7 partitions goes as follows.
- 
- 
+
+<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture17.png" width="70%" style="border:1px solid black;">
+
+<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture20.png" width="50%" style="border:1px solid black;">
+
 With results shown below.
-  
- 
+
+<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture19.png" width="25%" style="border:1px solid black;">
+
+<div align="center">
+<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture21.png" width="40%" style="border:1px solid black;">
+
 Figure 4.  Jetbot device on the left and kmeans plot on the right.
-Running it again with the GPU gives a similar result but the execution time is 3.6 seconds.  A scatter plot of the clustering is above.  The GPU yields a speed-up of 7.8 over the CPU. (This is low because the kmeans algorithms are mostly vector operations and not matrix-matrix operations.  Algorithms that have that property will yield speedup in the hundreds.) A significant shortcoming of the approach taken above is that we passed the input array of points to the function.  This limits the size we can handle to about 1 million single precision floats.  A more appropriate solution is to pass the location of the data to the remote computer and have it fetch the data.  An even better solution is to use the properties of this edge device to gather the data from its on-board instruments for processing.  
-The Jenson board has a camera, so as an experiment, we decided to write a function which will capture an image from the camera and return it to display.  Unfortunately, this camera requires a complex initialization and only one process can initialize and own the camera at a time.   But FuncX allows multiple instances of a function to execute concurrently, so we need some way to mediate access to the camera. The solution was to create a simple miro-web service that runs continuously.  It initializes the camera and has a single method “hello”.   Invoking that method causes the service to grab an image and store it in a file.  The path to the file is returned to the FuncX function that can grab the file and return it to the caller. In this case the function is now very simple. The camera service is waiting on a port on the local host where the function is executing.  The local file is read and the image is returned.  
-  
+</div><p>
+
+Running it again with the GPU gives a similar result but the execution time is 3.6 seconds.  A scatter plot of the clustering
+is above.  The GPU yields a speed-up of 7.8 over the CPU. (This is low because the kmeans algorithms are mostly vector
+operations and not matrix-matrix operations.  Algorithms that have that property will yield speedup in the hundreds.) A
+significant shortcoming of the approach taken above is that we passed the input array of points to the function.  This limits
+the size we can handle to about 1 million single precision floats.  A more appropriate solution is to pass the location of the
+data to the remote computer and have it fetch the data.  An even better solution is to use the properties of this edge device
+to gather the data from its on-board instruments for processing.  
+
+The Jenson board has a camera, so as an experiment, we decided to write a function which will capture an image from the camera
+and return it to display.  Unfortunately, this camera requires a complex initialization and only one process can initialize and
+own the camera at a time.   But FuncX allows multiple instances of a function to execute concurrently, so we need some way to
+mediate access to the camera. The solution was to create a simple miro-web service that runs continuously.  It initializes the
+camera and has a single method “hello”.   Invoking that method causes the service to grab an image and store it in a file.  The
+path to the file is returned to the FuncX function that can grab the file and return it to the caller. In this case the function
+is now very simple. The camera service is waiting on a port on the local host where the function is executing.  The local file
+is read and the image is returned.  
+
+<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture22.png" width="40%" style="border:1px solid black;">
+
+
+
 The result is the view from the camera of part of the office where it sits.
- 
-FuncX on Kubernetes
+
+<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture23.png" width="30%" style="border:1px solid black;">
+
+## FuncX on Kubernetes
+
+TODO-HERE
+
 In the examples below we will demonstrate the use of FuncX with a small Kubernetes cluster.  More specifically we will deploy a deep learning (BERT-based) document classifier as a function and do  some simple performance analysis.  The appendix at the end of this document give the instructions for installing Kubernetes on the Docker distribution on your laptop and also on Azure.  The typical application of Kubernetes involves running Docker-style containers on each node of the cluster. We are going to create a special container that contains our BERT classifier model that will be loaded as the worker.   Our goal is to run as many instances of the classifier in parallel as possible.  
-The BERT classifier
+
+### The BERT classifier
+
 The classifier that we are going to use as our test case is described in a previous post.    The classifier takes as input a text abstract of a science paper posted on ArXiv and classifies it as being either Math, Physics, Computer Science, Biology or Finance.   The classifier was trained on a subset of the document abstracts.  In this case we start with a pretrained BERT model, so for classification we only have to fine-tune an extra layer.
  
 Figure 5.  BERT modified with classifier layer.
@@ -196,7 +258,8 @@ Now that we have our Kubernetes cluster, we can run many invocations of this fun
  
 We have only 5 nodes, so each node has one copy of the classifier container running as funcx-…. One node is also running the endpoint server.   We should also note that when not receiving new requests the endpoint manager starts killing off un-needed workers and the number of deployed pods drops.   
 
-A Performance Experiment.
+### A Performance Experiment.
+
 If you divide a fixed number of independent tasks between P processor in parallel the the total time to execute them should drop by a factor of P.   Let’s check that with our classifier.  We consider our set of tasks to be 250 document abstracts.  We have created an array of document indexes called vals_string.  Vals_string[ n-1] contains 250/n of the documents for n in the range 1 to 10.  In the code below we launch p instances of our funcx_impl2 each working on vals_sting[ p – 1].  Then we wait for them all to finish.  We do this with p in the range of 1 to 10.   
  
 in the first case one pod computes the entire set of 250 docs in 54 seconds. Next two pods working in parallel complete the task in 29 seconds. The optimal case occurs when 4 pods work in parallel on the 4 blocks.  After that, the 5 pods suffer scheduling delays trying to execute more tasks than 4. Recall that we only had 1 cpu per pod. While 5 pods are available, the endpoint is also running on one of them.
@@ -220,11 +283,14 @@ In a separate experiment we measured the load time C to be about 3 seconds.  Loo
 The added scheduling penalty is just a guess. By plotting  this we get a graph that looks similar to the data.
  
 
-Final Observations
+## Final Observations
+
 Parsl and FuncX are excellent contributions to computational science.   The only parallel computing paradigm that they don’t explicitly cover is distributed parallel streams such as AWS Kinesis or apache Storm or Kafka. On the other hand, we experimented with using FuncX to launch functions which communicated with other functions using message brokers like AWS simple queue service and Azure  storage queues as well as ZeroMQ.  For example, you can use FuncX to launch a function that connects to an instrument and establishes  a stream of values that can be pumped to a queue or remote file system.  We didn’t include those examples here, because this is already too long.    However, we were convinced we could emulate the capability of Kafka and Storm stream parallelism with FuncX.   In fact, it seems FuncX uses ZeroMQ internally for some of its function.
 I want to thank Ryan Chard, Zhuozhao Li and Ben Galewsky for guiding me through some rough spots in my understanding of FuncX deployment.   In the following appendix I have documented the steps I leaned while deploying FuncX on Azure and Docker.   All of the code described here will be in the repo dbgannon/parsl-funcx (github.com).   
 In summary,  FuncX is Fun!
-Appendix:  Getting Kubernetes up on Windows, Mac and Azure
+
+## Appendix:  Getting Kubernetes up on Windows, Mac and Azure
+
 If you are running the latest Windows10 or MacOS you can install docker and with it, Kubernetes.  The latest version on Windows10 will use the Linux subsystem as part of the installation and with that, you get a version of Kubernetes already installed.  If you go to the docker desktop control (click on the docker icon and in the control setting you will see the Kubernetes control.   You will see an “enable Kubernetes” button.  Startup Kubernetes.
 You will also need Helm.  (To install helm on Windows you need to install chocolatey .) Helm is a package manager for  Kubernetes that is used by Funcx.   In a shell run
 choco install kubernetes-helm
@@ -267,12 +333,17 @@ Let’s call it Myvalues.yaml. The final helm deployment step is the command
 
 You can now grab the endpoint uuid as described above and invoke functions that use the environment contained in the container.
 
-Kubernetes on Azure
+### Kubernetes on Azure
+
 If you want to install it on an Azure Kubernetes cluster, you need to first create resource group and a container registry and an azure account.   To deploy the cluster, it is best to do this from the command line interface.   You can get the instructions for that here.   To manage the azure container registry, go to here.  Suppose the container registry called “myContainers” and the resource group is called “parl_test”.    To create the cluster named “funcx-cluster”  in the Azure region “northcentralus” do the following.
 
+<pre>
 >az aks create -g parl_test -n funcx-cluster --location northcentralus --attach-acr funcx --generate-ssh-keys --node-count 5 -node-vm-size Standard_D2s_v3
+</pre>
 
 You can monitor the creation status on the portal.    Next the following steps get you endpoint setup for the cluster
+
+<pre>
  >az aks get-credentials --resource-group parl_test --name funcx-cluster
  >cd .\.funcx\credentials\
  >kubectl create secret generic funcx-sdk-tokens --from-file=funcx_sdk_tokens.json
@@ -286,12 +357,17 @@ Look for the name of the endpoint pod called myep4-endpoint- followed by long ke
 Grab it and do
 
  >kubectl logs myep4-endpoint-6f54d9549-6hkmj
- 
+</pre>
+
 At this point you may have two clusters: one for the docker k8 cluster and one for Azure.  
+
+<pre>
 >kubectl config get-clusters
 NAME
 funcx-cluster
 docker-desktop
+</pre>
+
 Use “kubectl config current-context” to see which is currently responding to kubectl commands and use “kubectl config set-context” to change it.  When you are done you should delete the deployment for your endpoint.   It will persist as long as your cluster does and automatically restart after crashes.
  
 
