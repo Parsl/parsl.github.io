@@ -81,23 +81,62 @@ like to do this with maximum throughput so we will use the “HighThroughputExec
  
 <img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture5.png" width="40%" style="border:1px solid black;">
 
-TODO-HERE
+<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture6.png" width="40%" style="border:1px solid black;">
 
-We will first run pi(10**6)  sequentially 100 times.   Next, we launch two instances of pi repeated 50 times.   Doing 4 instances concurrently for 25 repetitions is next.   Repeating this process for 5, 10 and 100 concurrent instances gives us the following.  
- 
-Compared to Dask
-In many ways Parsl is like Python Dask (which we wrote about in a 2018 blog article.)   Dask is heavily integrated into the python stack.   Numpy and Pandas smoothly interoperate with Dask.  For the embarrassingly parallel bag-of-tasks applications Dask has a feature called dask.bag (db below).  We can compare Dask on the same 8 core Azure ubuntu machine that we used above.   We create a list of 100 copies of the value 10**6 and create a bag sequence from this.  We partition this bag into “nparts” partitions and invoke it in parallel as follows.
- 
+We will first run pi(10**6)  sequentially 100 times.   Next, we launch two instances of pi repeated 50 times.
+Doing 4 instances concurrently for 25 repetitions is next.   Repeating this process for 5, 10 and 100 concurrent
+instances gives us the following.  
+
+<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture7.png" width="40%" style="border:1px solid black;">
+
+## Compared to Dask
+In many ways Parsl is like Python Dask (which we wrote about in a 2018 [blog article](https://esciencegroup.com/2018/05/17/parallel-programming-in-the-cloud-with-python-dask/).)
+Dask is heavily integrated into the python stack.   Numpy and Pandas smoothly interoperate with Dask.  
+For the embarrassingly parallel bag-of-tasks applications Dask has a feature called dask.bag (db below).  
+We can compare Dask on the same 8 core Azure ubuntu machine that we used above.   We create a list of 100
+copies of the value 10**6 and create a bag sequence from this.  We partition this bag into “nparts”
+partitions and invoke it in parallel as follows.
+
+<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture8.png" width="50%" style="border:1px solid black;">
+
 Running this with the same set of partitions as above we get the following.
  
-Note that the best performance is achieved when there is one execution of pi(10*6) per partition. The graph below illustrates the relative performance of Parsl and Dask.
- 
+<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture9.png" width="40%" style="border:1px solid black;">
+
+Note that the best performance is achieved when there is one execution of pi(10*6) per partition. The graph below
+illustrates the relative performance of Parsl and Dask.
+
+<div align="center">
+<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture10.png" width="40%" style="border:1px solid black;">
+
 Figure 3.  Dask (orange) vs Parsl (blue) execution time for block sizes 1, 2, 4, 5,  10, 20,  100.
-Without further tuning of the executor and provider for running Parsl on your multicore laptop I believe Dask is the best performer there.  (The Jupyter notebook that contains these tests is in the repo dbgannon/parsl-funcx (github.com).)  But this is certainly not the whole story.  You can use your laptop to debug a Parsl script and then run it with a different executor on a massive cluster or supercomputer to achieve remarkable results.   In the Parsl HPDC ’19 paper, the authors provide ample evidence that Parsl outperforms every other alternative except perhaps a custom MPI program.  
-FuncX – a function as a service fabric.
-Serverless computing is one of the standards computing paradigms that cloud computing supports.  The AWS Lambda service was the first to introduce the idea of providing a way to have your function deployed and invoked without requiring you to deploy  VMs or other infrastructure.    In addition to Lambda, Azure has a serverless offering called Azure functions and Google has Cloud Functions and IBM supports Apache OpenWhisk.  One of the major shortcomings of these serverless FaaS products is that they are designed to support relatively light weight computations (small memory requirement and short-lived execution).  
-FuncX is a FaaS fabric that is designed for science. Technically FuncX is not a serverless platform.   FuncX requires that the user acquire or deploy the physical resources needed.   To submit a function to the resource you need an instance of the FuncX client and an endpoint string which is the key to the host resource.   To create an instance of the FuncX client  and bind a function to it, you simply do the following.
-  
+</div><p>
+
+Without further tuning of the executor and provider for running Parsl on your multicore laptop I believe Dask is
+the best performer there.  (The Jupyter notebook that contains these tests is in the repo
+[dbgannon/parsl-funcx (github.com)](https://github.com/dbgannon/parsl-funcx).)  But this is certainly not the
+whole story.  You can use your laptop to debug a Parsl script and then run it with a different executor on a
+massive cluster or supercomputer to achieve remarkable results.   In the Parsl HPDC ’19 paper, the authors
+provide ample evidence that Parsl outperforms every other alternative except perhaps a custom MPI program. 
+
+## FuncX – a function as a service fabric.
+
+Serverless computing is one of the standards computing paradigms that cloud computing supports.  The AWS Lambda
+service was the first to introduce the idea of providing a way to have your function deployed and invoked without
+requiring you to deploy  VMs or other infrastructure.    In addition to Lambda, Azure has a serverless offering
+called Azure functions and Google has Cloud Functions and IBM supports Apache OpenWhisk.  One of the major
+shortcomings of these serverless FaaS products is that they are designed to support relatively light weight
+computations (small memory requirement and short-lived execution).  
+
+FuncX is a FaaS fabric that is designed for science. Technically FuncX is not a serverless platform.   FuncX requires
+that the user acquire or deploy the physical resources needed.   To submit a function to the resource you need an
+instance of the FuncX client and an endpoint string which is the key to the host resource.   To create an instance of
+the FuncX client  and bind a function to it, you simply do the following.
+
+<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture13.png" width="40%" style="border:1px solid black;">
+
+TODO-HERE
+
 Once we have registered the function with the FuncX client and when  we have the FuncX endpoint we can run the function. 
  
  
