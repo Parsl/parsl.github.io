@@ -316,78 +316,203 @@ We have only 5 nodes, so each node has one copy of the classifier container runn
 
 ### A Performance Experiment.
 
-TODO-HERE
+If you divide a fixed number of independent tasks between P processor in parallel the the total time to execute them should
+drop by a factor of P.   Let’s check that with our classifier.  We consider our set of tasks to be 250 document abstracts.
+We have created an array of document indexes called **_vals_string_**.  **_Vals_string[ n-1]_** contains 250/n of the documents
+for n in the range 1 to 10.  In the code below we launch p instances of our **_funcx_impl2_** each working on
+**_vals_sting[ p – 1]_**.  Then we wait for them all to finish.  We do this with p in the range of 1 to 10.   
+ 
+<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture31.png" width="70%" style="border:1px solid black;">
 
-If you divide a fixed number of independent tasks between P processor in parallel the the total time to execute them should drop by a factor of P.   Let’s check that with our classifier.  We consider our set of tasks to be 250 document abstracts.  We have created an array of document indexes called vals_string.  Vals_string[ n-1] contains 250/n of the documents for n in the range 1 to 10.  In the code below we launch p instances of our funcx_impl2 each working on vals_sting[ p – 1].  Then we wait for them all to finish.  We do this with p in the range of 1 to 10.   
- 
-in the first case one pod computes the entire set of 250 docs in 54 seconds. Next two pods working in parallel complete the task in 29 seconds. The optimal case occurs when 4 pods work in parallel on the 4 blocks.  After that, the 5 pods suffer scheduling delays trying to execute more tasks than 4. Recall that we only had 1 cpu per pod. While 5 pods are available, the endpoint is also running on one of them.
+in the first case one pod computes the entire set of 250 docs in 54 seconds. Next two pods working in parallel complete the task
+in 29 seconds. The optimal case occurs when 4 pods work in parallel on the 4 blocks.  After that, the 5 pods suffer scheduling
+delays trying to execute more tasks than 4. Recall that we only had 1 cpu per pod. While 5 pods are available, the endpoint is
+also running on one of them.
 
- 
-A second question is to look at the average time per inference achieved.  In each case we are asking the classifier to classify a set of documents.   Each classification requires a BERT inference, so what is the inference rate.   
-Another factor is that every execution of the classify function must load the model. If the model load time is C and the rate of each classify operation is r, then for N classification the total time is
- 
+<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture32.png" width="40%" style="border:1px solid black;">
+
+A second question is to look at the average time per inference achieved.  In each case we are asking the classifier to classify
+a set of documents.   Each classification requires a BERT inference, so what is the inference rate?
+
+Another factor is that every execution of the classify function must load the model. If the model load time is C and the rate of
+each classify operation is r, then for N classification the total time is
+
+<div align="center">
+<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture33.png" width="15%" style="border:1px solid black;">
+</div>
+
 So the average for time for all N is
- 
+
+<div align="center">
+<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture38.png" width="30%" style="border:1px solid black;">
+</div>
+
 Hence for large N,  C/N is small and the inference rate is r.  If the load is divided among p processors in parallel, then the time is
- 
+
+<div align="center">
+<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture39.png" width="15%" style="border:1px solid black;">
+</div>
 
 So the average to evaluate all N items is now
- 
+
+<div align="center">
+<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture40.png" width="30%" style="border:1px solid black;">
+</div>
 
 Looking at the actual measured inference time from the experiments above we see the average time per inference in the graph below.
- 
-In a separate experiment we measured the load time C to be about 3 seconds.  Looking at the first item in the graph above we see that r is close to 0.2 for a single thread.   Using the formula above we can plot an approximate expected values (where we add a small scheduling penalty for tasks counts greater than our number of available servers as 
- 
+
+<div align="center">
+<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture41.png" width="40%" style="border:1px solid black;">
+</div>
+
+TODO-HERE
+
+In a separate experiment we measured the load time C to be about 3 seconds.  Looking at the first item in the graph above we see
+that r is close to 0.2 for a single thread.   Using the formula above we can plot an approximate expected values (where we add a
+small scheduling penalty for tasks counts greater than our number of available servers as 
+
+<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture42.png" width="40%" style="border:1px solid black;">
+
 The added scheduling penalty is just a guess. By plotting  this we get a graph that looks similar to the data.
- 
+
+<div align="center">
+<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture43.png" width="40%" style="border:1px solid black;">
+</div>
+
 
 ## Final Observations
 
-Parsl and FuncX are excellent contributions to computational science.   The only parallel computing paradigm that they don’t explicitly cover is distributed parallel streams such as AWS Kinesis or apache Storm or Kafka. On the other hand, we experimented with using FuncX to launch functions which communicated with other functions using message brokers like AWS simple queue service and Azure  storage queues as well as ZeroMQ.  For example, you can use FuncX to launch a function that connects to an instrument and establishes  a stream of values that can be pumped to a queue or remote file system.  We didn’t include those examples here, because this is already too long.    However, we were convinced we could emulate the capability of Kafka and Storm stream parallelism with FuncX.   In fact, it seems FuncX uses ZeroMQ internally for some of its function.
-I want to thank Ryan Chard, Zhuozhao Li and Ben Galewsky for guiding me through some rough spots in my understanding of FuncX deployment.   In the following appendix I have documented the steps I leaned while deploying FuncX on Azure and Docker.   All of the code described here will be in the repo dbgannon/parsl-funcx (github.com).   
+Parsl and FuncX are excellent contributions to computational science.   The only parallel computing paradigm that they don’t explicitly
+cover is distributed parallel streams such as AWS Kinesis or apache Storm or Kafka. On the other hand, we experimented with using FuncX
+to launch functions which communicated with other functions using message brokers like AWS simple queue service and Azure  storage
+queues as well as ZeroMQ.  For example, you can use FuncX to launch a function that connects to an instrument and establishes  a stream
+of values that can be pumped to a queue or remote file system.  We didn’t include those examples here, because this is already too long.
+However, we were convinced we could emulate the capability of Kafka and Storm stream parallelism with FuncX.   In fact, it seems FuncX
+uses ZeroMQ internally for some of its function.
+
+I want to thank Ryan Chard, Zhuozhao Li and Ben Galewsky for guiding me through some rough spots in my understanding of FuncX deployment.
+In the following appendix I have documented the steps I leaned while deploying FuncX on Azure and Docker.   All of the code described here
+will be in the repo [dbgannon/parsl-funcx (github.com)](https://github.com/dbgannon/parsl-funcx).
+
 In summary,  FuncX is Fun!
 
 ## Appendix:  Getting Kubernetes up on Windows, Mac and Azure
 
-If you are running the latest Windows10 or MacOS you can install docker and with it, Kubernetes.  The latest version on Windows10 will use the Linux subsystem as part of the installation and with that, you get a version of Kubernetes already installed.  If you go to the docker desktop control (click on the docker icon and in the control setting you will see the Kubernetes control.   You will see an “enable Kubernetes” button.  Startup Kubernetes.
-You will also need Helm.  (To install helm on Windows you need to install chocolatey .) Helm is a package manager for  Kubernetes that is used by Funcx.   In a shell run
+If you are running the latest Windows10 or MacOS you can install docker and with it, Kubernetes.  The latest version on Windows10 will
+use the Linux subsystem as part of the installation and with that, you get a version of Kubernetes already installed.  If you go to the
+docker desktop control (click on the docker icon and in the control setting you will see the Kubernetes control.   You will see an
+“enable Kubernetes” button.  Startup Kubernetes.
+
+You will also need Helm.  (To install helm on Windows you need to install chocolatey .) Helm is a package manager for  Kubernetes that
+is used by Funcx.   In a shell run
+
+<pre>
 choco install kubernetes-helm
+</pre>
+
 On the mac you can install helm with 
+
+<pre>
 $brew install kubernetes-helm
+</pre>
+
 Followed by 
+
+<pre>
 $ helm init
+</pre>
+
 A good way to see what is going on inside a Kubernetes cluster is to run the Kubernetes dashboard.  First you must start a proxy server on Kubernetes with
->  kubectl proxy
+
+<pre>
+> kubectl proxy
+</pre>
+
 Starting to serve on 127.0.0.1:8001
+
 In another shell run
+
+<pre>
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.4/aio/deploy/recommended.yaml
+</pre>
 
 To access the dashboard you will need a special token.   To get that run
-kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep admin-user | awk '{print $1}')
 
-On windows, the “grep” won’t work but token is displayed anyway as part of the output.   
-Go to the link  on localhost: 8001 given by this  Kubernetes Dashboard and plug in the token.   You will see the important categories of services, pods and deployments.   
-Now we are ready for Funcx!  Go to https://github.com/funcx-faas/funcX and download the file.   Store that in some place like your home directory C:\Users/You or /home/you.  (I am indebted to Ryan Chard and Ben Galewsky for walking me though the next few steps!!)
+<pre>
+kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep admin-user | awk '{print $1}')
+</pre>
+
+On windows, the “grep” won’t work but token is displayed anyway as part of the output.
+
+Go to the link  on localhost: 8001 given by this
+[Kubernetes Dashboard](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/login)
+and plug in the token.   You will see the important
+categories of services, pods and deployments.   
+
+Now we are ready for Funcx!  Go to [https://github.com/funcx-faas/funcX](https://github.com/funcx-faas/funcX) and download the file.
+Store that in some place like your home directory C:\Users/You or /home/you.  (I am indebted to Ryan Chard and Ben Galewsky for
+walking me though the next few steps!!)
+
 First you will  need a .funcx with a credentials subdirectory which contains funcx_sdk_tokens.json.  To get this do
+
+<pre>
 >pip install funcx_endpoint
 >funcx-endpoint configure
+</pre>
+
 You will be asked to authenticate with Globus Auth. From the funcx.org website:
-We require authentication in order to associate endpoints with users and enforce authentication and access control on the endpoint. As part of this step we request access to your identity information (to retrieve your email address) and Globus Groups management. We use Groups information to facilitate sharing of functions and endpoints by checking the Group membership of a group associated with a function.
+
+<pre>
+We require authentication in order to associate endpoints with users and enforce authentication and access control on the
+endpoint. As part of this step we request access to your identity information (to retrieve your email address) and Globus
+Groups management. We use Groups information to facilitate sharing of functions and endpoints by checking the Group
+membership of a group associated with a function.
+</pre>
+
 Once you have completed that,  cd to the credentials directory and execute
+
+<pre>
 >kubectl create secret generic funcx-sdk-tokens --from-file=funcx_sdk_tokens.json
+</pre>
+
 and then pick a name for your endpoint and do
+
+<pre>
 >helm repo add funcx   http://funcx.org/funcx-helm-charts/
+</pre>
+
 And then
+
+<pre>
 >helm install yourEndPointname   ./funcx-dev/helm/funcx_endpoint
+</pre>
+
 if you do 
+
+<pre>
 >kubectl get pods
+</pre>
+
 you will see yourEndPoint.   Given its pod ID you can do 
+
+<pre>
 >kubectl get logs YourEndPointPodID
-You will find the endpoint uuid in the logs.   Alternatively, you can go to the logs directly on the Kubernetes dashboard.  You are now ready.   You can try the example above to test it out.  
-To deploy a special container as the worker, such as the container created for the BERT classifier described above you need a special yaml file.  In that case the file is shown below.
+</pre>
+
+You will find the endpoint uuid in the logs.   Alternatively, you can go to the logs directly on the Kubernetes dashboard.
+You are now ready.   You can try the example above to test it out.  
+
+To deploy a special container as the worker, such as the container created for the BERT classifier described above you need
+a special yaml file.  In that case the file is shown below.
+
+<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture44.png" width="60%" style="border:1px solid black;">
+
 
 Let’s call it Myvalues.yaml. The final helm deployment step is the command
+
+<pre>
 >helm install -f Myvalues.yaml myep4 funcx-dev/helm/funcx_endpoint
+</pre>
 
 You can now grab the endpoint uuid as described above and invoke functions that use the environment contained in the container.
 
