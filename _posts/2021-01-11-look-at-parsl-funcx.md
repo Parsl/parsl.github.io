@@ -21,12 +21,8 @@ large simulation that will run  in parallel on a supercomputer and finally chann
 As sketched in the diagram in Figure 1, you want the main thread of the workflow to be managed from a python Jupyter notebook
 session.  Parsl can do this.
 
-
 <img src="/images/blog/2021-01-11/Picture1.png" width="70%" style="border:0px solid black;">
 {: style="text-align: center;"}
-
-![](/images/blog/2021-01-11/Picture1.png)
-{: style="text-align: center; width: 70%;"}
 
 Figure 1.  Hypothetical parallel distributed workflow involving remote resources managed from a Jupyter session on a laptop.
 {: style="text-align: center;"}
