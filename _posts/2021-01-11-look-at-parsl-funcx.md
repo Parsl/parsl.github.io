@@ -516,7 +516,7 @@ If you want to install it on an Azure Kubernetes cluster, you need to first crea
 >az aks create -g parl_test -n funcx-cluster --location northcentralus --attach-acr funcx --generate-ssh-keys --node-count 5 -node-vm-size Standard_D2s_v3
 </pre>
 
-You can monitor the creation status on the portal.    Next the following steps get you endpoint setup for the cluster
+You can monitor the creation status on the portal.    Next the following steps get your endpoint set up for the cluster
 
 <pre>
  >az aks get-credentials --resource-group parl_test --name funcx-cluster
