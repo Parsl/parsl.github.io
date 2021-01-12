@@ -23,7 +23,10 @@ session.  Parsl can do this.
 
 
 <img src="/images/blog/2021-01-11/Picture1.png" width="70%" style="border:0px solid black;">
+{: style="text-align: center;"}
+
 ![](/images/blog/2021-01-11/Picture1.png)
+{: style="text-align: center; width: 70%;"}
 
 Figure 1.  Hypothetical parallel distributed workflow involving remote resources managed from a Jupyter session on a laptop.
 {: style="text-align: center;"}
