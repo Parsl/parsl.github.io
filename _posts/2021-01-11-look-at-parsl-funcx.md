@@ -23,8 +23,10 @@ session.  Parsl can do this.
 
 
 <img src="/images/blog/2021-01-11/Picture1.png" width="70%" style="border:0px solid black;">
+![](/images/blog/2021-01-11/Picture1.png)
 
 Figure 1.  Hypothetical parallel distributed workflow involving remote resources managed from a Jupyter session on a laptop.
+{: style="text-align: center;"}
 
 The list of actual examples of scientific applications studied using Parsl is impressive and it is documented in their 
 [case studies](http://parsl-project.org/case_studies.html) page.   They include examples from chemistry, physics, cosmology,
