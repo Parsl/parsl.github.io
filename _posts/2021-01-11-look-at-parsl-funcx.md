@@ -21,11 +21,10 @@ large simulation that will run  in parallel on a supercomputer and finally chann
 As sketched in the diagram in Figure 1, you want the main thread of the workflow to be managed from a python Jupyter notebook
 session.  Parsl can do this.
 
-<center>
+
 <img src="/images/blog/2021-01-11/Picture1.png" width="70%" style="border:0px solid black;">
-<br>
+
 Figure 1.  Hypothetical parallel distributed workflow involving remote resources managed from a Jupyter session on a laptop.
-</center><P><P>
 
 The list of actual examples of scientific applications studied using Parsl is impressive and it is documented in their 
 [case studies](http://parsl-project.org/case_studies.html) page.   They include examples from chemistry, physics, cosmology,
