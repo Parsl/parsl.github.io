@@ -36,7 +36,7 @@ with an object that represents the “future value” that the function will com
 while the function computation takes place in another thread of execution.   The calling thread can later wait for the function
 to complete and retrieve the result.  To illustrate this here is an example of a function that computes Pi.   
 
-<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture2.png" width="70%" style="border:1px solid black;">
+<img src="/images/blog/2021-01-11/Picture1.png" width="70%" style="border:1px solid black;">
 
 The decoration @python_app indicates that this function will return a future.    We can check to see if the computation is
 complete by calling done() on the future object.   When done() returns true we can get the result value with the result() function.
