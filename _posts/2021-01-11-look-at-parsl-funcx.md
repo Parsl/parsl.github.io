@@ -46,11 +46,11 @@ complete by calling done() on the future object.   When done() returns true we c
 Parsl will allow functions returning futures to be composed into graphs that can be scheduled and executed in “dataflow” style.
 For example if we have to additional functions F(x,y) and G(a,b) that return futures then the graph in Figure 2
 
-<div align="center">
+<center>
 <img src="/images/blog/2021-01-11/Picture4.png" width="50%" style="border:1px solid black;">
 
 Figure 2.   Parsl dataflow-style scheduling
-</div><p>
+</center>
 
 will be scheduled and executed so that F and G are not invoked until the values of its arguments are available. 
 
