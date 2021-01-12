@@ -22,7 +22,7 @@ As sketched in the diagram in Figure 1, you want the main thread of the workflow
 session.  Parsl can do this.
 
 <div align="center">
-<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture1.png" width="70%" style="border:1px solid black;">
+<img src="/images/blog/2021-01-11/Picture1.png" width="70%" style="border:1px solid black;">
 
 Figure 1.  Hypothetical parallel distributed workflow involving remote resources managed from a Jupyter session on a laptop.
 </div><p>
@@ -36,18 +36,18 @@ with an object that represents the “future value” that the function will com
 while the function computation takes place in another thread of execution.   The calling thread can later wait for the function
 to complete and retrieve the result.  To illustrate this here is an example of a function that computes Pi.   
 
-<img src="/images/blog/2021-01-11/Picture1.png" width="70%" style="border:1px solid black;">
+<img src="/images/blog/2021-01-11/Picture2.png" width="70%" style="border:1px solid black;">
 
 The decoration @python_app indicates that this function will return a future.    We can check to see if the computation is
 complete by calling done() on the future object.   When done() returns true we can get the result value with the result() function.
  
-<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture3.png" width="50%" style="border:1px solid black;">
+<img src="/images/blog/2021-01-11/Picture3.png" width="50%" style="border:1px solid black;">
 
 Parsl will allow functions returning futures to be composed into graphs that can be scheduled and executed in “dataflow” style.
 For example if we have to additional functions F(x,y) and G(a,b) that return futures then the graph in Figure 2
 
 <div align="center">
-<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture4.png" width="50%" style="border:1px solid black;">
+<img src="/images/blog/2021-01-11/Picture4.png" width="50%" style="border:1px solid black;">
 
 Figure 2.   Parsl dataflow-style scheduling
 </div><p>
@@ -79,15 +79,15 @@ To illustrate executors,  we have allocated an ubuntu “data science” vm on A
 We will run 100 instances of the pi program from above, but we will do this we different levels of concurrency. We would
 like to do this with maximum throughput so we will use the “HighThroughputExecutor” configured as
  
-<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture5.png" width="40%" style="border:1px solid black;">
+<img src="/images/blog/2021-01-11/Picture5.png" width="40%" style="border:1px solid black;">
 
-<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture6.png" width="40%" style="border:1px solid black;">
+<img src="/images/blog/2021-01-11/Picture6.png" width="40%" style="border:1px solid black;">
 
 We will first run pi(10**6)  sequentially 100 times.   Next, we launch two instances of pi repeated 50 times.
 Doing 4 instances concurrently for 25 repetitions is next.   Repeating this process for 5, 10 and 100 concurrent
 instances gives us the following.  
 
-<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture7.png" width="40%" style="border:1px solid black;">
+<img src="/images/blog/2021-01-11/Picture7.png" width="40%" style="border:1px solid black;">
 
 ### Compared to Dask
 In many ways Parsl is like Python Dask (which we wrote about in a 2018 [blog article](https://esciencegroup.com/2018/05/17/parallel-programming-in-the-cloud-with-python-dask/).)
@@ -97,17 +97,17 @@ We can compare Dask on the same 8 core Azure ubuntu machine that we used above. 
 copies of the value 10**6 and create a bag sequence from this.  We partition this bag into “nparts”
 partitions and invoke it in parallel as follows.
 
-<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture8.png" width="50%" style="border:1px solid black;">
+<img src="/images/blog/2021-01-11/Picture8.png" width="50%" style="border:1px solid black;">
 
 Running this with the same set of partitions as above we get the following.
  
-<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture9.png" width="40%" style="border:1px solid black;">
+<img src="/images/blog/2021-01-11/Picture9.png" width="40%" style="border:1px solid black;">
 
 Note that the best performance is achieved when there is one execution of pi(10*6) per partition. The graph below
 illustrates the relative performance of Parsl and Dask.
 
 <div align="center">
-<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture10.png" width="40%" style="border:1px solid black;">
+<img src="/images/blog/2021-01-11/Picture10.png" width="40%" style="border:1px solid black;">
 
 Figure 3.  Dask (orange) vs Parsl (blue) execution time for block sizes 1, 2, 4, 5,  10, 20,  100.
 </div><p>
@@ -133,13 +133,13 @@ that the user acquire or deploy the physical resources needed.   To submit a fun
 instance of the FuncX client and an endpoint string which is the key to the host resource.   To create an instance of
 the FuncX client  and bind a function to it, you simply do the following.
 
-<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture13.png" width="40%" style="border:1px solid black;">
+<img src="/images/blog/2021-01-11/Picture13.png" width="40%" style="border:1px solid black;">
 
 Once we have registered the function with the FuncX client and when  we have the FuncX endpoint we can run the function. 
  
-<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture14.png" width="50%" style="border:1px solid black;">
+<img src="/images/blog/2021-01-11/Picture14.png" width="50%" style="border:1px solid black;">
 
-<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture15.png" width="50%" style="border:1px solid black;">
+<img src="/images/blog/2021-01-11/Picture15.png" width="50%" style="border:1px solid black;">
 
 
 As shown above the run method returns a uuid for the result which can be passed to the client object to obtain the
@@ -171,7 +171,7 @@ suitable for execution in a GPU.  We have a program kmeans.py that contains four
 
 For FuncX we will execute Cluster remotely from our laptop.   It is shown below.
 
-<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture16.png" width="50%" style="border:1px solid black;">
+<img src="/images/blog/2021-01-11/Picture16.png" width="50%" style="border:1px solid black;">
 
 There are two important points to notice here.  First is that we must import all the needed libraries inside the scope of
 the function because they may not be available in the worker execution environment on the remote host.  Second, we note
@@ -181,16 +181,16 @@ flag which signals to use the GPU or CPU to do the computation.
 
 Running the function with 400000 random points in 2-d space looking for 7 partitions goes as follows.
 
-<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture17.png" width="70%" style="border:1px solid black;">
+<img src="/images/blog/2021-01-11/Picture17.png" width="70%" style="border:1px solid black;">
 
-<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture20.png" width="50%" style="border:1px solid black;">
+<img src="/images/blog/2021-01-11/Picture20.png" width="50%" style="border:1px solid black;">
 
 With results shown below.
 
-<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture19.png" width="25%" style="border:1px solid black;">
+<img src="/images/blog/2021-01-11/Picture19.png" width="25%" style="border:1px solid black;">
 
 <div align="center">
-<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture21.png" width="40%" style="border:1px solid black;">
+<img src="/images/blog/2021-01-11/Picture21.png" width="40%" style="border:1px solid black;">
 
 Figure 4.  Jetbot device on the left and kmeans plot on the right.
 </div><p>
@@ -212,11 +212,11 @@ path to the file is returned to the FuncX function that can grab the file and re
 is now very simple. The camera service is waiting on a port on the local host where the function is executing.  The local file
 is read and the image is returned.  
 
-<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture22.png" width="40%" style="border:1px solid black;">
+<img src="/images/blog/2021-01-11/Picture22.png" width="40%" style="border:1px solid black;">
 
 The result is the view from the camera of part of the office where it sits.
 
-<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture23.png" width="30%" style="border:1px solid black;">
+<img src="/images/blog/2021-01-11/Picture23.png" width="30%" style="border:1px solid black;">
 
 ## FuncX on Kubernetes
 
@@ -237,7 +237,7 @@ Biology or Finance.   The classifier was trained on a subset of the document abs
 pretrained BERT model, so for classification we only have to fine-tune an extra layer.
  
 <div align="center">
-<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture24.png" width="40%" style="border:1px solid black;">
+<img src="/images/blog/2021-01-11/Picture24.png" width="40%" style="border:1px solid black;">
 
 Figure 5.  BERT modified with classifier layer.
 </div><p>
@@ -245,7 +245,7 @@ Figure 5.  BERT modified with classifier layer.
 Using the [simpletransformers](https://towardsdatascience.com/simple-transformers-named-entity-recognition-with-transformer-models-c04b9242a2a0)
 library, the training was done with two line of code:
 
-<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture25.png" width="50%" style="border:1px solid black;">
+<img src="/images/blog/2021-01-11/Picture25.png" width="50%" style="border:1px solid black;">
 
 
 The model is trained on a pandas dataframe of 4500 (abstract, classification) pairs.  We will test it on 2600 additional
@@ -257,7 +257,7 @@ implementation.  Next we have to install the torch and simpletransformers librar
 and we copy the classifier.py program to the root level.  Next we need to install the funcx-endpoint code.  The complete
 Docker file is shown below.
  
-<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture26.png" width="50%" style="border:1px solid black;">
+<img src="/images/blog/2021-01-11/Picture26.png" width="50%" style="border:1px solid black;">
 
 If you want to experiment with this container it is in the Docker repo as dbgannon/classify.
 
@@ -268,7 +268,7 @@ The classifier.py program, has two methods for doing inference:
 
 The function to send a list of abstract strings to the classifier is
 
-<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture27.png" width="35%" style="border:1px solid black;">
+<img src="/images/blog/2021-01-11/Picture27.png" width="35%" style="border:1px solid black;">
 
 If we let “s” be the string
 
@@ -281,11 +281,11 @@ higher-curvature theories of gravity.'
 
 and run this on the classifier through FuncX we get
 
-<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture28.png" width="45%" style="border:1px solid black;">
+<img src="/images/blog/2021-01-11/Picture28.png" width="45%" style="border:1px solid black;">
 
 which returns 2, the correct classification (Physics).  (The true and false values are results from the pending queries.)   To do the performance evaluation we will use the other function which allows us to send a list of document ids.  This makes us able to send longer lists (because FuncX has a limit on the size of messages).  The following is an example.
 
-<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture29.png" width="60%" style="border:1px solid black;">
+<img src="/images/blog/2021-01-11/Picture29.png" width="60%" style="border:1px solid black;">
 
 The reply gives the predicted classification and the actual classification.   Notice they agree except in position 6 which corresponds to document 890:
 
@@ -310,7 +310,7 @@ One of the beauties of FuncX is that when it gets to many requests it automatica
 in Kubernetes).   Using the Kubernetes dashboard we can see what it looks like when we have the system loaded with parallel
 requests.
 
-<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture30.png" width="50%" style="border:1px solid black;">
+<img src="/images/blog/2021-01-11/Picture30.png" width="50%" style="border:1px solid black;">
 
 We have only 5 nodes, so each node has one copy of the classifier container running as funcx-…. One node is also running the endpoint server.   We should also note that when not receiving new requests the endpoint manager starts killing off un-needed workers and the number of deployed pods drops.   
 
@@ -322,14 +322,14 @@ We have created an array of document indexes called **_vals_string_**.  **_Vals_
 for n in the range 1 to 10.  In the code below we launch p instances of our **_funcx_impl2_** each working on
 **_vals_sting[ p – 1]_**.  Then we wait for them all to finish.  We do this with p in the range of 1 to 10.   
  
-<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture31.png" width="70%" style="border:1px solid black;">
+<img src="/images/blog/2021-01-11/Picture31.png" width="70%" style="border:1px solid black;">
 
 in the first case one pod computes the entire set of 250 docs in 54 seconds. Next two pods working in parallel complete the task
 in 29 seconds. The optimal case occurs when 4 pods work in parallel on the 4 blocks.  After that, the 5 pods suffer scheduling
 delays trying to execute more tasks than 4. Recall that we only had 1 cpu per pod. While 5 pods are available, the endpoint is
 also running on one of them.
 
-<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture32.png" width="40%" style="border:1px solid black;">
+<img src="/images/blog/2021-01-11/Picture32.png" width="40%" style="border:1px solid black;">
 
 A second question is to look at the average time per inference achieved.  In each case we are asking the classifier to classify
 a set of documents.   Each classification requires a BERT inference, so what is the inference rate?
@@ -338,31 +338,31 @@ Another factor is that every execution of the classify function must load the mo
 each classify operation is r, then for N classification the total time is
 
 <div align="center">
-<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture33.png" width="15%" style="border:1px solid black;">
+<img src="/images/blog/2021-01-11/Picture33.png" width="15%" style="border:1px solid black;">
 </div>
 
 So the average for time for all N is
 
 <div align="center">
-<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture38.png" width="30%" style="border:1px solid black;">
+<img src="/images/blog/2021-01-11/Picture38.png" width="30%" style="border:1px solid black;">
 </div>
 
 Hence for large N,  C/N is small and the inference rate is r.  If the load is divided among p processors in parallel, then the time is
 
 <div align="center">
-<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture39.png" width="15%" style="border:1px solid black;">
+<img src="/images/blog/2021-01-11/Picture39.png" width="15%" style="border:1px solid black;">
 </div>
 
 So the average to evaluate all N items is now
 
 <div align="center">
-<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture40.png" width="30%" style="border:1px solid black;">
+<img src="/images/blog/2021-01-11/Picture40.png" width="30%" style="border:1px solid black;">
 </div>
 
 Looking at the actual measured inference time from the experiments above we see the average time per inference in the graph below.
 
 <div align="center">
-<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture41.png" width="40%" style="border:1px solid black;">
+<img src="/images/blog/2021-01-11/Picture41.png" width="40%" style="border:1px solid black;">
 </div>
 
 TODO-HERE
@@ -371,12 +371,12 @@ In a separate experiment we measured the load time C to be about 3 seconds.  Loo
 that r is close to 0.2 for a single thread.   Using the formula above we can plot an approximate expected values (where we add a
 small scheduling penalty for tasks counts greater than our number of available servers as 
 
-<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture42.png" width="40%" style="border:1px solid black;">
+<img src="/images/blog/2021-01-11/Picture42.png" width="40%" style="border:1px solid black;">
 
 The added scheduling penalty is just a guess. By plotting  this we get a graph that looks similar to the data.
 
 <div align="center">
-<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture43.png" width="40%" style="border:1px solid black;">
+<img src="/images/blog/2021-01-11/Picture43.png" width="40%" style="border:1px solid black;">
 </div>
 
 
@@ -505,7 +505,7 @@ You are now ready.   You can try the example above to test it out.
 To deploy a special container as the worker, such as the container created for the BERT classifier described above you need
 a special yaml file.  In that case the file is shown below.
 
-<img src="https://github.com/Parsl/parsl.github.io/raw/master/images/blog/2021-01-11/Picture44.png" width="60%" style="border:1px solid black;">
+<img src="/images/blog/2021-01-11/Picture44.png" width="60%" style="border:1px solid black;">
 
 
 Let’s call it Myvalues.yaml. The final helm deployment step is the command
