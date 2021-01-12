@@ -2,7 +2,7 @@
 layout: post
 author: Dennis Gannon, School of Informatics, Computing and Engineering, Indiana University 
 longtitle: A Look at Parsl and Funcx: Two Excellent Parallel Scripting Tools for Clouds and Supercomputers
-title: title: A Look at Parsl and Funcx
+title: A Look at Parsl and Funcx
 ---
 
 
