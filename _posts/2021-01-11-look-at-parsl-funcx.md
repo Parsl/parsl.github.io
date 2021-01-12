@@ -21,11 +21,9 @@ large simulation that will run  in parallel on a supercomputer and finally chann
 As sketched in the diagram in Figure 1, you want the main thread of the workflow to be managed from a python Jupyter notebook
 session.  Parsl can do this.
 
-<center>
-<img src="/images/blog/2021-01-11/Picture1.png" width="70%" style="border:1px solid black;">
+<img src="/images/blog/2021-01-11/Picture1.png" width="70%" style="border:0px solid black;">
 
 Figure 1.  Hypothetical parallel distributed workflow involving remote resources managed from a Jupyter session on a laptop.
-</center>
 
 The list of actual examples of scientific applications studied using Parsl is impressive and it is documented in their 
 [case studies](http://parsl-project.org/case_studies.html) page.   They include examples from chemistry, physics, cosmology,
@@ -36,12 +34,12 @@ with an object that represents the “future value” that the function will com
 while the function computation takes place in another thread of execution.   The calling thread can later wait for the function
 to complete and retrieve the result.  To illustrate this here is an example of a function that computes Pi.   
 
-<img src="/images/blog/2021-01-11/Picture2.png" width="70%" style="border:1px solid black;">
+<img src="/images/blog/2021-01-11/Picture2.png" width="70%" style="border:0px solid black;">
 
 The decoration @python_app indicates that this function will return a future.    We can check to see if the computation is
 complete by calling done() on the future object.   When done() returns true we can get the result value with the result() function.
  
-<img src="/images/blog/2021-01-11/Picture3.png" width="50%" style="border:1px solid black;">
+<img src="/images/blog/2021-01-11/Picture3.png" width="50%" style="border:0px solid black;">
 
 Parsl will allow functions returning futures to be composed into graphs that can be scheduled and executed in “dataflow” style.
 For example if we have to additional functions F(x,y) and G(a,b) that return futures then the graph in Figure 2
