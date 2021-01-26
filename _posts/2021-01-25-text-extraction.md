@@ -18,13 +18,13 @@ extract information from scientific paper. Scalable and automated methods are re
 important facts, including molecular compounds and the relationships between different compounds such as (aluminum, melting
 point, 660.3 &deg;C) from the the text:
 
-"The melting point of Aluminum is 660.3 􏰁&deg;􏰁C."
+"The melting point of Aluminum is 660.3 &deg;C."
 
 ### Approach
 
 Traditionally, relation extraction consists of five stages: tokenization, part-of-speech tagging, named entity recognition (NER),
 phrase parsing, and information extraction. We focus here on developing a relation extraction pipeline using a dependency parser
-rather than using costly NER. A dependency parser analy􏰀zes the grammatical structure of a sentence, establishing relationships
+rather than using costly NER. A dependency parser analyzes the grammatical structure of a sentence, establishing relationships
 between "head" words and words that modify those heads. We used a dependency parser, as they are useful for extracting
 relationships between words using only their parts of speech. We used a dependency parser provided by spaCy and customized it
 through tokenization and word embeddings.
