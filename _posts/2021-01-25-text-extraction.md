@@ -38,10 +38,10 @@ Figure 1. Spacy NLP Pipeline.
 
 ### Performance of Model
 
-We first explored the accuracy of a dependency parser pipeline using the spaCy􏰉s default tokeni􏰀er and word embeddings model
+We first explored the accuracy of a dependency parser pipeline using the spaCy􏰉s default tokenizer and word embeddings model
 ('en_core_web_sm'). We then attempted to apply the same pipeline to the polymer dataset; however, it performed poorly due to
 the difficulty identifying entities in scientific text (e.g., hyphenated and non-dictionary words). To address this limitation
-we developed a custom tokeni􏰀er that combines words with hyphens, degrees signs, and other symbols necessary for understanding
+we developed a custom tokenizer that combines words with hyphens, degrees signs, and other symbols necessary for understanding
 polymer notation. We again used the default word embeddings model ('en_core_web_sm'). Finally, we compared these methods to
 the state-of-the-art ChemDataExtractor.
 
@@ -54,7 +54,7 @@ To further improve performance, we trained custom word embeddings using Skip-gra
 the Gensim library. CBOW determines the semantic and syntactic information of a word based on the context in which the word appears.
 Skip-gram uses a context window around the center word for which it creates a word embedding vector.
 
-We used k-fold cross validation to evaluate our model. We set 𝑘 = 5 and took a mean of the evaluation scores to determine the model's
+We used k-fold cross validation to evaluate our model. We set _k_ = 5 and took a mean of the evaluation scores to determine the model's
 performance. We evaluated our CBOW and Skip-gram models using default hyperparameters. We changed various hyperparameters while
 training our word embeddings and found that the default CBOW word embeddings gave us the highest F1 score of 0.671.
 
