@@ -30,15 +30,15 @@ relationships between words using only their parts of speech. We used a dependen
 through tokenization and word embeddings.
 
 
-<img src="/images/blog/2021-01-25/image1.png" alt="Spacy NLP Pipeline" width="80%" style="border:0px solid black;">
+<img src="/images/blog/2021-01-25/image1.png" alt="spaCy NLP Pipeline" width="80%" style="border:0px solid black;">
 {: style="text-align: center;"}
 
-Figure 1. Spacy NLP Pipeline.
+Figure 1. spaCy NLP Pipeline.
 {: style="text-align: center;"}
 
 ### Performance of Model
 
-We first explored the accuracy of a dependency parser pipeline using the spaCy􏰉s default tokenizer and word embeddings model
+We first explored the accuracy of a dependency parser pipeline using spaCy's default tokenizer and word embeddings model
 ('en_core_web_sm'). We then attempted to apply the same pipeline to the polymer dataset; however, it performed poorly due to
 the difficulty identifying entities in scientific text (e.g., hyphenated and non-dictionary words). To address this limitation
 we developed a custom tokenizer that combines words with hyphens, degrees signs, and other symbols necessary for understanding
