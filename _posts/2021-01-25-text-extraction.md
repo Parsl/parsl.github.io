@@ -1,7 +1,7 @@
 ---
 layout: post
 author: Aarthi Koripelly, University of Chicago 
-title: Diving for Treasure in a Sea of Scientific Literature: Extracting Scientific Information from Free Text Articles
+title: Diving for Treasure in a Sea of Scientific Literature&#58; Extracting Scientific Information from Free Text Articles
 ---
 
 It has become impossible for researchers to keep up with the more than 2.5 million publications published every year.
