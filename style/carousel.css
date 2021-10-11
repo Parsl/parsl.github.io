@@ -41,7 +41,8 @@ body {
 .parsl-banner {
   color: white;
   background-color: #01192D;
-  /*margin-bottom: 80px;*/
+  /*For parslfest banner, comment out */
+  margin-bottom: 0px;
 }
 .parsl-banner-img {
   max-width: 70%;
