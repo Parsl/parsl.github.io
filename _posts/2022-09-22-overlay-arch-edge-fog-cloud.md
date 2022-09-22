@@ -1,6 +1,6 @@
 ---
 layout: post
-author: Dante D. Sanchez-Gallegos, Alfredo Barron, J. L. Gonzalez-Compean (Cinvestav Tamaulipas)
+author: Dante D. Sánchez-Gallegos, Alfredo Barron, J. L. Gonzalez-Compean (Cinvestav Tamaulipas)
 title: An overlay architecture based on in-memory content delivery for funcX in edge-fog-cloud
 ---
 
