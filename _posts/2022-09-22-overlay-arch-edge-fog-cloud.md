@@ -10,7 +10,11 @@ in-memory content delivery for funcX in edge-fog-cloud. Figure 1 presents the co
 architecture, which includes a layer for managing the functions created by funcX. In this layer, the functions can be
 organized in the form of patterns. In second layer, the endpoints triggered by each function launched in upper later. 
 
-![Figure 1. Overlay architecture of a storage model for funcX.](https://raw.githubusercontent.com/Parsl/parsl.github.io/master/images/blog/2022-09-22/arch2.jpg?token=GHSAT0AAAAAABHL6POPTVAIFB44UJWWF3OYYZMSMRQ)
+<img src="/images/blog/2022-09-22/arch.png" width="75%" style="border:0px solid black;">
+{: style="text-align: center;"}
+
+Figure 1. Overlay architecture of a storage model for funcX.
+{: style="text-align: center;"}
 
 The data layer implements a CDN based on in-memory storage, which includes a caching storage system. This system is based
 on a pool of data containers (see DC in Figure 1), that contains software structures that implement a temporal and hierarchical
