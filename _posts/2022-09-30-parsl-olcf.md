@@ -1,6 +1,6 @@
 ---
 layout: post
-author: Joint work with Sean Wilkinson, Tyler Skluzacek, Rafael Ferriera da Silva (NCCS and OLCF, ORNL)
+author: Ketan Maheshwari, Sean Wilkinson, Tyler Skluzacek, and Rafael Ferriera da Silva (NCCS and OLCF, ORNL)
 title: Parsl at OLCF
 ---
 
