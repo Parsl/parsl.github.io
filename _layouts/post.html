@@ -6,9 +6,9 @@ layout: default
   
   <div class="row" style="padding-top: 20px">
     <div class="col-lg-12">
-      <h2>{{ page.title }}</h2>
-			<p>{{ page.date | date_to_string }} - {{ page.author }}</p>
-
+      <h2 style="color: #285893;">{{ page.title }}</h2>
+			<p><em>{{ page.date | date_to_string }} - {{ page.author }}</em></p>
+			<hr/>
 			{{ content }}
 		</div>
   </div>
