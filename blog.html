@@ -6,15 +6,20 @@ title: Blog
   
   <div class="row" style="padding-top: 20px">
     <div class="col-lg-12">
-      <h2>Blog</h2>
-			
+      <h2 style="color: #285893;">Blog</h2>
+		<p>A space for users to share ideas, research, insight, and experiences and learn about the exciting things happening around the community.
+			Interested in authoring a guest blog? <a href="mailto:parsl.project.org@gmail.com?subject=Guest Blog Inquiry">Email us!</a>
+	    	</p>
+	    	<hr>
 			<div>
 				{% for post in site.posts %}
 					<div>
 						<h4><a href="{{ post.url }}">{{ post.title }}</a></h4>
 						<div><b>{{ post.author }}</b></div> 
-						<div><b>{{ post.date | date: "%-d %B %Y" }}</b></div>
-						{{ post.content | strip_html | truncatewords:75 }}
+						<div><em>{{ post.date | date: "%-d %B %Y" }}</em></div>
+						<br/>
+						{{ post.excerpt | strip_html | truncatewords:75 }}
+						<div><hr></div>
 					</div>
 				{% endfor %}
 			</div>
