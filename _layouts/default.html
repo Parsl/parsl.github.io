@@ -40,48 +40,76 @@
   </head>
   <body>
 
-    <header>
-      <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a class="navbar-brand" href="/"><img src="/images/parsl-logo-white.png" height="25"></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+<header>
+   <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+
+<!-- responsive navbar toggler for mobile -->
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-          <ul class="navbar-nav mr-auto">
-           <!-- <li class="nav-item active">
-              <a class="nav-link" href="https://getbootstrap.com/docs/4.0/examples/carousel/#">Home <span class="sr-only">(current)</span></a>
-            </li> -->
-            <li class="nav-item">
-              <a class="nav-link" href="https://parsl.readthedocs.io/en/stable/">Documentation</a>
-	    </li>   
-            <li class="nav-item">
-              <a class="nav-link" href="/case_studies.html">Case Studies</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/support.html">Community</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/publications.html">Publications</a>
-            </li>
-	    <li class="nav-item">
-              <a class="nav-link" href="/news.html">News</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="https://github.com/parsl/parsl">GitHub</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/parslfest.html">ParslFest</a>
-            </li>
-						<li class="nav-item">
-              <a class="nav-link" href="/blog.html">Blog</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="https://mast.hpc.social/@ParslProject">Mastodon</a>
-            </li>
-          </ul>
-        </div>
-      </nav>
-    </header>
+	
+  <!-- Brand Logo-->
+  <a class="navbar-brand" href="https://parsl-project.org/"><img src="/images/parsl-logo-white.png" height="25"></a>
+
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+  <!-- Solo Case Studies Link -->
+  <ul class="navbar-nav">
+
+    <li class="nav-item">
+      <a class="nav-link" href="/case_studies.html">Case Studies</a>
+    </li>
+
+   <!-- Dropdown Menu Community-->
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+        Community
+      </a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="/support.html">About</a>
+        <a class="dropdown-item" href="/blog.html">Blog</a>
+	<a class="dropdown-item" href="/governance.html">Governance</a>
+	<a class="dropdown-item" href="https://github.com/parsl/parsl" target="_blank">GitHub</a>
+        <a class="dropdown-item" href="https://www.linkedin.com/company/parsl-project/" target="_blank">LinkedIn</a>
+	<a class="dropdown-item" href="https://mast.hpc.social/@ParslProject" target="_blank">Mastodon</a>
+      </div>
+    </li>
+
+  <!-- Dropdown Documentation -->
+   <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+        Documentation
+      </a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="https://parsl.readthedocs.io/en/stable/">Read the Docs</a>
+        <a class="dropdown-item" href="https://parsl.readthedocs.io/en/stable/reference.html">API Reference Guide</a>
+        <a class="dropdown-item" href="https://parsl.readthedocs.io/en/stable/devguide/index.html">Developer Documentation</a>
+        <a class="dropdown-item" href="https://parsl.readthedocs.io/en/stable/faq.html">FAQ</a>
+        <a class="dropdown-item" href="https://parsl.readthedocs.io/en/stable/1-parsl-introduction.html">Parsl Tutorial</a>
+        <a class="dropdown-item" href="https://parsl.readthedocs.io/en/stable/quickstart.html">Quickstart</a>
+        <a class="dropdown-item" href="https://parsl.readthedocs.io/en/stable/userguide/index.html">User Guide</a>
+      </div>
+    </li>
+	
+
+  <!-- Dropdown News & Events-->
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+        News & Events
+      </a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="/news.html">News</a>
+	<a class="dropdown-item" href="/parslfest.html">ParslFest</a>
+      </div>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="/publications.html">Publications</a>
+    </li>
+	  
+  </ul>
+  </div>
+</nav>
+</header>
 
     <main role="main">
 
