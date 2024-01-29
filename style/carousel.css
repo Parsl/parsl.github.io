@@ -190,3 +190,33 @@ body {
   display: none;
   overflow: hidden;
 }
+
+/* PROJECT GRID --------------------------------------------------*/
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  background-color: #ffffff;
+  padding: 10px;
+}
+.grid-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 10px;
+  text-align: center;
+}
+* {
+  box-sizing: border-box;
+}
+
+.zoom {
+padding: 50px;
+  transition: transform .2s;
+  width: auto;
+  height: auto;
+  margin: 10px;
+}
+
+.zoom:hover {
+  -ms-transform: scale(1.25); /* IE 9 */
+  -webkit-transform: scale(1.25); /* Safari 3-8 */
+  transform: scale(1.25); 
+}
