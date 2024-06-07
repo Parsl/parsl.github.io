@@ -1,10 +1,10 @@
 ---
 layout: post
-author: Jamison Kerney and Sophie Bui (Interviewer)
+author: Jamison Kerney (University of California, Berkeley) and Sophie Bui (Parsl)
 title: Student Spotlight – Meet Jamison Kerney
 excerpt: Jamison Kerney (he/him/his), a recent computer science graduate from the Illinois Institute of Technology, is working on improving Parsl for fine-grained parallelism. Check out this interview blog post to learn more about him and his work with our community.
 ---
-<img src="images/blog/2024-06-07/JK-PF23.png" width="95%" style="border:0px solid black;" alt="Jamison giving a presentation at ParslFest 2023.">
+<img src="/images/blog/2024-06-07/JK-PF23.png" width="95%" style="border:0px solid black;" alt="Jamison giving a presentation at ParslFest 2023.">
 
 *Jamison giving a presentation on his project at ParslFest 2023.*
 {: style="text-align: center;"}
