@@ -25,7 +25,7 @@ I strongly value the ability to understand and share the feelings of others. Emp
 ## Journey to Outreachy and Parsl
 
 **What inspired you to get involved with Outreachy, Parsl, and open-source software?**<br>
-I've always been drawn to open-source software, Inkscape, in particular, has been a game-changer for me, a testament to the power of collaborative, free software. The collaborative nature and accessibility of open-source tools inspired me to seek opportunities within this realm. When I learned about Outreachy, I was immediately intrigued. I followed the journey of an alumnus, and their experience resonated with my aspirations.
+I've always been drawn to open-source software, Inkscape, in particular, has been a game-changer for me, a testament to the power of collaborative, free software. The collaborative nature and accessibility of open-source tools inspired me to seek opportunities within this realm. When I learned about <a href="https://www.outreachy.org/" target="_blank">Outreachy</a>, I was immediately intrigued. I followed the journey of an alumnus, and their experience resonated with my aspirations.
 
 Feeling inspired, I joined Outreachy because it fosters growth, collaboration, and inclusivity. When the opportunity for internships arose, Parsl's "Increasing Access to Distributed Computing in Python: Improving Parsl’s Website and Documentation" project resonated with me, aligning perfectly with my aspirations.<br>
 
