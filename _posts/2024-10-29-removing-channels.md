@@ -23,6 +23,13 @@ For running remotely on other sites, the rough consensus amongst core Parsl peop
 
 For running on a cluster which has no resource manager, our suggestion is to bit the bullet and install a resource manager: Parsl should not be trying to be a lightweight or fake resource manager. The most tested resource manager is <a href="https://slurm.schedmd.com/documentation.html">Slurm</a>. The Slurm provider is even tested in our automated tests (after Nick Tyler's contribution <a href="https://github.com/Parsl/parsl/pull/3606">in September</a>).
 
+### Obscure changes
+
+The aim of this work is to remove the channel abstraction entirely. That includes the `LocalChannel` which most Parsl configurations use (often implicitly) - which involves removing a few smaller features (that I think no one uses):
+
+The LocalChannel has an `env` parameter which allows the environment to be overridden when executing batch job management commands. In practice, people set the environment before they run their workflow script, and there is no plan to make this more specific environment possible any more. There is a subtle user-facing change here, even if you aren't setting the `env` parameter to `LocalChannel`: the current `LocalChannel` implementation caches the unix environment at the time the LocalChannel is instantiated, so that if the user workflow changes the environment (for example using <a href="https://docs.python.org/3/library/os.html#os.environ">os.environ</a>), batch job commands run through the `LocalChannel` will not see that. When `LocalChannel` disappears, this cache will also disappear and batch job commands will see the submit process environment at the point they are executed. For the same reason that I think `env` is not needed, I think this cache removal will not affect normal users. (Let me know if it does!)
+
+Another set of small changes is to do with the distinction between the submit-side script directory (usually `submit_scripts) and the remote-side script directory. There is state in the `LocalChannel` to let this be specified by the user or computed and stored by Parsl's initialization code, and some providers have options (`move_files`) to configure when scripts will be moved between the two directories. As there is no distinct remote-side any more, all of this can go away. As with `env`, there is a subtle user facing change (or probably a bug) here: when `LocalChannel` objects are re-used between multiple DFKs in the same process, Parsl will screw up the `script_dir` because there is confusion of whether that is scoped by process or by DFK. A side effect of this channel removal work is that misbehaviour will go away.
 
 
 === reid's original post
