@@ -13,12 +13,15 @@ More recently, the groups which might have pushed on Parsl's remote execution ha
 
 So with a strong abandonware vibe around channels, and with that code tangled throughout the codebase complicating understanding and maintenance, I advocated for removal of channels in <a href="https://github.com/Parsl/parsl/issues/3515">GitHub issue #3515</a>. This is scheduled for 7th of November, 2024 - a week in the future, at time of writing.
 
+So how does this affect you? For most users, the changes will be minimal. tl;dr: If your Parsl configuration has a line `channel=LocalChannel()`, then remove it.
 
-=== bits
+### What's being removed
 
-channel removal:
-prototype PR https://github.com/Parsl/parsl/pull/3650
-discussion issue: https://github.com/Parsl/parsl/pull/3650
+Some components are being removed outright: all of the SSH-based channels which facilitate launching batch jobs (and so High Throughput Executor worker pools) over SSH, and the Ad-hoc Provider, which aims to support low-end clusters that have no resource manager and which only works when there are channels available to each worker node.
+
+For running remotely on other sites, the rough consensus amongst core Parsl people is that you should have Parsl submit tasks into Globus Compute - see the links to Yadu's talks and Reid's blog post above.
+
+For running on a cluster which has no resource manager, our suggestion is to bit the bullet and install a resource manager: Parsl should not be trying to be a lightweight or fake resource manager. The most tested resource manager is <a href="https://slurm.schedmd.com/documentation.html">Slurm</a>. The Slurm provider is even tested in our automated tests (after Nick Tyler's contribution <a href="https://github.com/Parsl/parsl/pull/3606">in September</a>).
 
 
 
