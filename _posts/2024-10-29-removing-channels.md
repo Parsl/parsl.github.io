@@ -42,3 +42,5 @@ In preparation for November 7th, a handful of tidyups (the ones that shouldn't a
 ### Be involved
 
 Parsl's provider mechanisms are not well tested - for example our PBS providers are untested and rely either on developers being careful or user reports. So you might try out the prototype of Parsl-without-channels in <a href="https://github.com/Parsl/parsl/pull/3650">pull request #3650</a> in your own environment, and comment there with success or failure stories.
+
+If you'd like us to not remove features that you're using, consider turning on <a href="https://parsl.readthedocs.io/en/stable/userguide/usage_tracking.html">usage statistics collection</a> for all of your workflow runs. We focus our maintenance efforts primarily on what is actively used, so the more information the better.
