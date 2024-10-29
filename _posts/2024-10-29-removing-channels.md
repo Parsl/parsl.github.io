@@ -15,7 +15,7 @@ So with a strong abandonware vibe around channels, and with that code tangled th
 
 So, how does this affect you? For most users, the changes will be minimal. tl;dr: If your Parsl configuration has a line `channel=LocalChannel()`, then remove it.
 
-### What's being removed
+### What's Being Removed
 
 Some components are being removed outright: all of the SSH-based channels that facilitate launching batch jobs (and, so, High Throughput Executor worker pools) over SSH, and the Ad-hoc Provider, which aims to support low-end clusters that have no resource manager and which only works when there are channels available to each worker node.
 
@@ -23,7 +23,7 @@ For running remotely on other sites, the rough consensus amongst core Parsl peop
 
 For running on a cluster with no resource manager, our suggestion is to bite the bullet and install a resource manager: Parsl should not be trying to be a lightweight or fake resource manager. The most tested resource manager is <a href="https://slurm.schedmd.com/documentation.html">Slurm</a>. The Slurm provider is even tested in our automated tests (after Nick Tyler's contribution <a href="https://github.com/Parsl/parsl/pull/3606">in September</a>).
 
-### Obscure changes
+### Obscure Changes
 
 The aim of this work is to remove the channel abstraction entirely. That includes the `LocalChannel`, which most Parsl configurations use (often implicitly) - which involves removing a few smaller features (that I think no one uses):
 
