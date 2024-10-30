@@ -9,7 +9,7 @@ Since the beginning, Parsl has had facilities for executing code elsewhere: for 
 
 This multisite behaviour is complicated, and the channels ignore most of the complications, instead focusing on a tiny piece of the problem: how to run a batch job submission on a remote site. This goes back decades: for example, the Globus Toolkit GRAM component, from largely the same groups as Parsl and released in the late 1990s, had the same focus. In part, because Parsl doesn't do a good job (or any job, in some cases) with the other complications, not many people run multisite workloads.
 
-More recently, the groups that might have pushed on Parsl's remote execution have put their energy into developing <a href="https://www.globus.org/compute">Globus Compute</a> and imagining the way forward as Parsl submitting tasks into Globus Compute. Yadu gave a talk on the most recent work (<a href="https://youtu.be/6TFTzIdWwUg">video</a>, <a href="https://parsl-project.org/parslfest/2024/Babuji-Yadu_PF24-Channels-and-GCE.pdf">slides</a> ) at <a href="https://parsl-project.org/parslfest/parslfest2024.html">ParslFest 2024</a>, and Reid wrote this blog post about <a href="https://parsl-project.org/2024/06/26/parsl-globus-compute.html">earlier techniques</a>.
+More recently, the groups that might have pushed on Parsl's remote execution have put their energy into developing <a href="https://www.globus.org/compute">Globus Compute</a> and imagining the way forward as Parsl submitting tasks into Globus Compute. Yadu gave a talk on the most recent work (<a href="https://youtu.be/6TFTzIdWwUg">video</a>, <a href="https://parsl-project.org/parslfest/2024/Babuji-Yadu_PF24-Channels-and-GCE.pdf">slides</a>) at <a href="https://parsl-project.org/parslfest/parslfest2024.html">ParslFest 2024</a>, and Reid wrote this blog post about <a href="https://parsl-project.org/2024/06/26/parsl-globus-compute.html">earlier techniques</a>.
 
 So with a strong abandonware vibe around channels, and with that code tangled throughout the codebase complicating understanding and maintenance, I advocated for the removal of channels in <a href="https://github.com/Parsl/parsl/issues/3515">GitHub issue #3515</a>. This is scheduled for the 7th of November, 2024 - a week in the future, at the time of writing.
 
@@ -22,6 +22,8 @@ Some components are being removed outright: all of the SSH-based channels that f
 For running remotely on other sites, the rough consensus amongst core Parsl people is that you should have Parsl submit tasks into Globus Compute - see the links to Yadu's talks and Reid's blog post above.
 
 For running on a cluster with no resource manager, our suggestion is to bite the bullet and install a resource manager: Parsl should not be trying to be a lightweight or fake resource manager. The most tested resource manager is <a href="https://slurm.schedmd.com/documentation.html">Slurm</a>. The Slurm provider is even tested in our automated tests (after Nick Tyler's contribution <a href="https://github.com/Parsl/parsl/pull/3606">in September</a>).
+
+Some users start HTEX worker pools themselves manually, without using Parsl's channel or provider mechanism to do so. These changes don't affect that: manual worker pools remains as moderately-supported as always.
 
 ### Obscure Changes
 
