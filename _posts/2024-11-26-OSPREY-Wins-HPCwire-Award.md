@@ -11,16 +11,14 @@ Each year, <a href="https://www.hpcwire.com/" target="_blank">HPCwire</a> presen
 
 OSPREY, an open science platform for robust epidemic analysis that leverages <a href="https://parsl-project.org/2024/06/26/parsl-globus-compute.html" target="_blank">Globus Compute</a>, a unified interface for securely and reliably accessing remote compute resources using a distributed network of Parsl executors to create a Function as a Service (FaaS) platform, was awarded the Editor’s Choice Award for “Best HPC Response to Societal Plight” at SC24 in Atlanta, Georgia, on November 18, 2024.
 
-<blockquote>Being awarded the HPCWire Editor’s Choice Award for our work on OSPREY is of great significance to us. Our work is very important to us, but these recognitions demonstrate that the community also recognizes the importance of our work. <br>
-– Valerie Hayot-Sasson, a postdoctoral scholar at the University of Chicago and ANL.</blockquote>
+"Being awarded the HPCWire Editor’s Choice Award for our work on OSPREY is of great significance to us. Our work is very important to us, but these recognitions demonstrate that the community also recognizes the importance of our work," said Valerie Hayot-Sasson, a postdoctoral scholar at the University of Chicago and ANL.
 
 <img src="/images/blog/2024-11-26/HPCwire-Award-Pic.png" width="100%" style="border:0px solid black;" alt="A photo collage of Kyle Chard and Valerie Hayot-Sasson receiving the HPCwire award from Tom Tabor.">
 {: style="text-align: center;"}
 
 OSPREY aims to enhance pandemic response by enabling epidemiological researchers and health officials to utilize HPC resources and facilitates data-driven decision-making to make better and timely public health decisions. Researchers from  Argonne National Lab (ANL)  and the University of Chicago used Globus, <a href="https://emews.org" target="_blank">EMEWS</a> (Extreme-scale Model Exploration with Swift), and the newly developed <a href="https://github.com/NSF-RESUME/aero" target="_blank">AERO</a> (Automated Event-based Research Orchestration) platform to integrate automated workflows, data curation, and epidemiological analyses to facilitate rapid collaboration and development during health crises.
 
-<blockquote>Our focus with OSPREY has been to develop broadly applicable capabilities to improve decision-making for epidemic response, tying together advanced data, modeling, computing, and automation approaches. This recognition by the HPCwire editors and thought leaders in HPC is both gratifying and helps us further disseminate our open science platform.<br>
-– Jonathan Ozik, a principal computational scientist at ANL and senior scientist at the consortium for Advanced Science and Engineering with Public Health Science affiliation at the University of Chicago.</blockquote>
+"Our focus with OSPREY has been to develop broadly applicable capabilities to improve decision-making for epidemic response, tying together advanced data, modeling, computing, and automation approaches. This recognition by the HPCwire editors and thought leaders in HPC is both gratifying and helps us further disseminate our open science platform," said Jonathan Ozik, a principal computational scientist at ANL and senior scientist at the consortium for Advanced Science and Engineering with Public Health Science affiliation at the University of Chicago.
 
 <a href="https://www.globus.org/news/globus-receives-multiple-honors-in-hpcwire-annual-awards" target="_blank">Read Globus’ press release for more info about this award</a>.
 
