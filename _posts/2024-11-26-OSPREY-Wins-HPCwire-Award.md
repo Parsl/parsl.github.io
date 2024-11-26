@@ -4,7 +4,7 @@ author: Sophie Bui
 title: OSPREY Wins HPCwire Editor's Choice Award for Best HPC Response to Societal Plight
 excerpt: OSPREY, an open science platform for robust epidemic analysis that leverages Globus Compute, a unified interface for securely and reliably accessing remote compute resources using a distributed network of Parsl executors to create a Function as a Service (FaaS) platform, was awarded the Editor’s Choice Award at SC24 in Atlanta, Georgia, on November 18, 2024.
 ---
-<img src="/images/blog/2024-11-14/SC24-Parsl-Banner.jpg" width="100%" style="border:0px solid black;" alt="A banner graphic with Parsl logo and SC24 logo;">
+<img src="/images/blog/2024-11-26/HPCwire-2024-RCA_Banner.png" width="100%" style="border:0px solid black;" alt="A banner graphic with HPCwire Award Logo">
 {: style="text-align: center;"}
 
 Each year, <a href="https://www.hpcwire.com/" target="_blank">HPCwire</a> presents its annual <a href="https://www.hpcwire.com/2024-hpcwire-awards%20readers-editors-choice/" target="_blank">Readers’ and Editors’ Choice Awards</a> to celebrate the most significant breakthroughs in high-performance computing (HPC) over the past 12 months. The global HPC community nominated and voted on the awards, with the winners announced and honored during the Supercomputing Conference. These recognitions within the HPC industry honor outstanding achievements and innovations and serve as a mark of excellence in the field.
@@ -13,6 +13,9 @@ OSPREY, an open science platform for robust epidemic analysis that leverages <a 
 
 > Being awarded the HPCWire Editor’s Choice Award for our work on OSPREY is of great significance to us. Our work is very important to us, but these recognitions demonstrate that the community also recognizes the importance of our work.
 > – Valerie Hayot-Sasson, a postdoctoral scholar at the University of Chicago and ANL.
+
+<img src="/images/blog/2024-11-26/HPCwire-Award-Pic.png" width="100%" style="border:0px solid black;" alt="A photo collage of Kyle Chard and Valerie Hayot-Sasson receiving the HPCwire award from Tom Tabor.">
+{: style="text-align: center;"}
 
 OSPREY aims to enhance pandemic response by enabling epidemiological researchers and health officials to utilize HPC resources and facilitates data-driven decision-making to make better and timely public health decisions. Researchers from  Argonne National Lab (ANL)  and the University of Chicago used Globus, <a href="https://emews.org" target="_blank">EMEWS</a> (Extreme-scale Model Exploration with Swift), and the newly developed <a href="https://github.com/NSF-RESUME/aero" target="_blank">AERO</a> (Automated Event-based Research Orchestration) platform to integrate automated workflows, data curation, and epidemiological analyses to facilitate rapid collaboration and development during health crises.
 
