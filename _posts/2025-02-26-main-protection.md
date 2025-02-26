@@ -2,7 +2,7 @@
 layout: post
 author: Ben Clifford
 title: Wrapping your workflows in __main__ protection
-excerpt: TODO
+excerpt: Starting soon, you will probably need to start wrapping the main body of your parsl workflows with a test, if __name__ == "__main__". I'll talk about what I mean first, and then explain why.
 ---
 
 Starting soon, you will probably need to start wrapping the main body of your parsl workflows with a test, if __name__ == "__main__". I'll talk about what I mean first, and then explain why later in this post.
