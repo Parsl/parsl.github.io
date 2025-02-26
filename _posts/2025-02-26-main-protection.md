@@ -48,8 +48,8 @@ times, inside the different helper processes that Parsl starts up.
 
 Parsl makes extensive use of the Python `multiprocessing` module, which helps you (or rather, Parsl) run Python 
 code in multiple operating system processes: for example, there are processes to support task submission (the
-interchange in the high throughput executor, the Work Queue submit process, and several parts of the monitoring
-system to manage message routing and database access).
+interchange in the high throughput executor and the Work Queue submit process) and several parts of the monitoring
+system to manage message routing and database access.
 
 Python contains multiple implementations of the `multiprocessing` primitives (processes, queues, locks, etc)
 with each implementation having a different mechanism for starting a new Python process that looks "right".
