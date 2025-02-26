@@ -53,12 +53,12 @@ with each implementation having a different mechanism for starting a new Python 
 The options are detailed in the <a href="https://docs.python.org/3/library/multiprocessing.html#contexts-and-start-methods">multiprocessing section of the Python manual</a>.
 
 The traditional default for Python on Linux has been the `fork` start method, and a lot of Parsl was built assuming
-that is the case. <a href="https://github.com/Parsl/parsl/pull/2099">PR #2099</a> made this use more explicit in
+that is the case. <a href="https://github.com/Parsl/parsl/pull/2099">PR #2099</a> made this more explicit in
 the codebase.
 
 Unfortunately, the `fork` start method doesn't work very well in the situations Parsl wants it to, and it is one
-of the main causes of "mysterious" hangs in our test system (and probably, then, for users who silently endure
-those hangs).
+of the main causes of "mysterious" hangs in our test system (and so probably for users who silently endure
+those hangs in the real world.)
 
 I'm not alone in this opinion: Python will move to a new linux default, `spawn`, with Python 3.14; MacOS has used
 `spawn` as a default for a long time and Parsl specifically overrides this to get `fork` behaviour; and Windows
@@ -76,4 +76,39 @@ Those were the relatively easy pieces.
 What remains is harder to switch primarily because those processes are in sections of the code that need users to add the
 boilerplate `__name__ == "__main__"` test that I talked about at the start of this post.
 
-That comes down to how the different multiprocessing start methods make new processes come into existence.
+That requirement comes down to how the different multiprocessing start methods make new processes come into existence.
+
+The `fork` method uses the unix `fork()` technique to make a quasi-duplicate of the currently running process: for example
+that means all of the Python objects in memory, all of the imported modules, without having to reload any of that. But
+this does not compose well with threads.
+
+A common hang in Parsl is when some thread is logging a message using Python's `logging` module at the point that
+some other thread forks a new `multiprocessing` process - the new process launches with a copy of the logging locks,
+locked because some code is doing logging. Then any log statement in the new process will hang, waiting for that
+logging lock to become unlocked: the thread that was doing logging isn't running in this new process, and it will
+never unlock the copy of the lock in this new process.
+
+I've also seen this lock related behaviour at libc level, with name service resolution, and it is a fundamental
+architectural property (or flaw) of trying to use multiprocessing and threads at the same time.
+
+Since Python 3.12, Python has raised deprecation warnings when a fork happens in a process which also has
+multiple threads - although this has always been a problem, less aggressively reported.
+
+The `spawn` method does not have this behaviour: it starts a fresh Python process and initialises everything from
+scratch. So there's a completely new logging system instance, with fresh clean locks. But in order to do that,
+everything needs to be reloaded: modules need to be re-imported, and most relevant here, the original
+workflow script needs to be reloaded in that new process.
+
+And so, that means when using `spawn`, the original workflow script needs to not always run the workflow: when it
+is in the original process, it should run the workflow. When it is loaded in other multiprocessing processes,
+it shouldn't run the workflow - instead it should only do imports and definitions.
+
+That's what `if __name__ == "__main__":` asks: are we running in the original process (where you would expect
+this code to run) or are we being re-imported elsewhere?
+
+## Conclusion
+
+Add that `if` statement. It won't hurt with `fork` multiprocessing, and it will reduce the surprise as Parsl
+moves to `spawn` multiprocessing, something that will probably happen to smash down on our last remaining known
+race condition hangs.
+
