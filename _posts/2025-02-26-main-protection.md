@@ -82,9 +82,9 @@ boilerplate `__name__ == "__main__"` test that I talked about at the start of th
 
 That requirement comes down to how the different multiprocessing start methods make new processes come into existence.
 
-The `fork` method uses the unix `fork()` technique to make a quasi-duplicate of the currently running process: for example
-that means all of the Python objects in memory, all of the imported modules, without having to reload any of that. But
-this does not compose well with threads.
+The `fork` method uses the unix `fork()` to make a quasi-duplicate of the currently running process: for example
+that means all of the Python objects in memory and all of the imported modules are duplicated into the new process.
+This does not compose well with threads.
 
 A common hang in Parsl is when some thread is logging a message using Python's `logging` module at the point that
 some other thread forks a new `multiprocessing` process - the new process launches with a copy of the logging locks,
