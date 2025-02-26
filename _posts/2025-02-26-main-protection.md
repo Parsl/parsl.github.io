@@ -7,38 +7,41 @@ excerpt: TODO
 
 Starting soon, you will probably need to start wrapping the main body of your parsl workflows with a test, if __name__ == "__main__". I'll talk about what I mean first, and then explain why later in this post.
 
-Many people do this already.
+Many people do this already, and many users get this done for them by a higher level framework.
 
-and many users get this done for them by a higher level framework.
-
-so I expect that the users that are affected are the users who directly write scripts.
+I expect that the users that are affected are the users who directly write scripts.
 
 
-Example code change:
+Here's an example code change:
 
+Before:
+
+```
 def my_app(x):
   return x+1
 
 with parsl.load():
   print(my_app(10).result())
-
+```
 
 becomes:
 
+```
 def my_app(x):
   return x+1
 
 if __name__ == "__main__":
   with parsl.load():
     print(my_app(10).result())
+```
 
-Roughly: definitions should live outside the protected block. actions should live inside the protected block.
+Roughly speaking: imports and definitions should live outside the protected block. Actions should live inside the protected block.
 
-I opened <a href="https://github.com/Parsl/parsl/issues/3723">issue #3723</a> for discussion of this change.
+I opened <a href="https://github.com/Parsl/parsl/issues/3723">issue #3723</a> for discussion of this change a few weeks ago, after generally positive support on Parsl's Slack.
 
 ## What will happen if I don't make this change?
 
-As we make non-backward-compatible changes to Parsl, you will start seeing your workflow starting multiple
+As we make non-backward-compatible changes to Parsl, you will start seeing your workflow myteriously starting multiple
 times, inside the different helper processes that Parsl starts up.
 
 ## Why?
