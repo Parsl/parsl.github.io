@@ -71,7 +71,8 @@ does not support `fork` at all (and this is <a href="https://github.com/Parsl/pa
 
 Parsl has already moved away from `fork` multiprocessing in a couple of places:
 
-PR #2983 switched the High Throughput Executor worker pool to use the spawn context internally; and PR #3463 starts
+<a href="https://github.com/Parsl/parsl/pull/2983">PR #2983</a> switched the High Throughput Executor worker pool to use the spawn context internally;
+and <a href="https://github.com/Parsl/parsl/pull/2983">PR #3463</a> starts
 the interchange as a new command line process avoiding `multiprocessing` entirely.
 
 Those were the relatively easy pieces.
