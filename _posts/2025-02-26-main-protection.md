@@ -19,8 +19,8 @@ Example code change:
 def my_app(x):
   return x+1
 
-parsl.load()
-print(my_app(10).result())
+with parsl.load():
+  print(my_app(10).result())
 
 
 becomes:
@@ -29,8 +29,8 @@ def my_app(x):
   return x+1
 
 if __name__ == "__main__":
-  parsl.load()
-  print(my_app(10).result())
+  with parsl.load():
+    print(my_app(10).result())
 
 Roughly: definitions should live outside the protected block. actions should live inside the protected block.
 
