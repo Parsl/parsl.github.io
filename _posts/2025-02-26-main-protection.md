@@ -34,6 +34,13 @@ if __name__ == "__main__":
 
 Roughly: definitions should live outside the protected block. actions should live inside the protected block.
 
+I opened <a href="https://github.com/Parsl/parsl/issues/3723">issue #3723</a> for discussion of this change.
+
+## What will happen if I don't make this change?
+
+As we make non-backward-compatible changes to Parsl, you will start seeing your workflow starting multiple
+times, inside the different helper processes that Parsl starts up.
+
 ## Why?
 
 Parsl makes extensive use of the Python `multiprocessing` module, which helps you (or rather, Parsl) run Python 
@@ -59,11 +66,14 @@ does not support `fork` at all (and this is <a href="https://github.com/Parsl/pa
 
 ## Moving Parsl away from `fork` multiprocessing
 
-This has already happened in a couple of places:
+Parsl has already moved away from `fork` multiprocessing in a couple of places:
 
 PR #2983 switched the High Throughput Executor worker pool to use the spawn context internally; and PR #NNNN starts
 the interchange as a new command line process avoiding `multiprocessing` entirely.
 
 Those were the relatively easy pieces.
 
+What remains is harder to switch primarily because those processes are in sections of the code that need users to add the
+boilerplate `__name__ == "__main__"` test that I talked about at the start of this post.
 
+That comes down to how the different multiprocessing start methods make new processes come into existence.
