@@ -7,7 +7,7 @@ excerpt: I've been reworking the checkpointing and memoization system
 
 Parsl uses three different terms that mean almost (but not
 quite) the same - checkpointing, memoization and app caching.
-I've been working the code around this for better modularity
+I've been working the code around al three fo these for better modularity
 (aka better hackability) with some bug
 fixing thrown in. This has been ongoing at a slow pace for
 a long time but a recent talk at ParslFest 2025 got me paying
@@ -16,18 +16,9 @@ requests (available together as <a href="https://github.com/Parsl/parsl/pull/353
 
 So first, those three terms you'll see:
 
-* *App caching* - to me, this implies the result might be forgotten and recomputed.
+* *App caching* - Parsl can remember the result of a completed app and if you make a new invocation with the same parameters in the same workflwo run, you will get that remembered result instead of another app execution. To me, the phrase *caching* implies the result might be forgottten and recomputed if memory management decides so. But that isn't the case with Parsl.
 
-* *Memoization* -  to me, implies algorithmic correctness more than caching in the sense of <a href="">dynamic programming</a> - where things will go *wrong* if the result is not stored.
-
-Parsl isn't trying to make either of the above implications
-though: app caching and memoization mean exactly the same
-thing in Parsl land, and the difference in phrasing is 
-historical and spurious. Indeed, Parsl will run the same
-app invocation twice if they're made  around the same time,
-and if you're using the TaskVine executor, that can also
-deliberately discard results if it decides it would be better
-to recompute them.
+* *Memoization* - This is just another word for app caching. Some pieces of the code say memoization and some say app caching but that is spurious history from prototyping times. To me, implies algorithmic correctness more than caching in the sense of <a href="">dynamic programming</a> - where things will go *wrong* if the result is not stored. But that is *also* not the case with Parsl. If you invoke a task again before its first run result is ready, you'll get a re-execution. And Task Vine deliberatly can re-run tasks rather than moving data around, if it decides that is a better thing to do.
 
 * *Checkpointing* - to a lot of people, this means that
 the entire state of the workflow is saved to disk in a way
