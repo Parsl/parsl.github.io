@@ -24,24 +24,11 @@ So first, those three terms you'll see:
 the entire state of the workflow is saved to disk in a way
 that means the workflow can start up from where it left off.
 
-That's broadly the intention of Parsl checkpointing, but
-the implementation doesn't look like most people would
-expect.
+  That's broadly the intention of Parsl checkpointing, but the implementation doesn't look like most people would expect.
 
-In many workflow systems, including VDS and Swift, 
-the two ancestors of Parsl, a workflow is written in its own
-language with a runtime that is amenable to this kind of
-checkpointing.
+  In many workflow systems, including VDS and Swift, the two ancestors of Parsl, a workflow is written in its own language with a runtime that is amenable to this kind of checkpointing.
 
-Parsl chose to live elsewhere in the design space, using
-Python as the runtime, and Python programs as workflows.
-That is much less amenable to checkpointing the entire
-state of the Python program. Instead, Parsl's checkpointing
-system is built on top of the above memoization system,
-extended to persist to disk. Restarting a checkpointed
-workflow involves running the entire Python workflow code
-from scratch, but individual app invocations complete quickly
-because they have already been run in previous runs.
+  Parsl chose to live elsewhere in the design space, using Python as the runtime, and Python programs as workflows.  That is much less amenable to checkpointing the entire state of the Python program. Instead, Parsl's checkpointing system is built on top of the above memoization system, extended to persist to disk. Restarting a checkpointed workflow involves running the entire Python workflow code from scratch, but individual app invocations complete quickly because they have already been run in previous runs.
 
 This style of checkpointing has a few interesting properties:
 
