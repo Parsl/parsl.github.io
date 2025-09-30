@@ -16,9 +16,9 @@ requests (available together as <a href="https://github.com/Parsl/parsl/pull/353
 
 So first, those three terms you'll see:
 
-1. App caching -  to me, this implies the result might be forgotten and recomputed.
+* *App caching* - to me, this implies the result might be forgotten and recomputed.
 
-2. Memoization -  to me, implies algorithmic correctness more than caching in the sense of <a href="">dynamic programming</a> - where things will go *wrong* if the result is not stored.
+* *Memoization* -  to me, implies algorithmic correctness more than caching in the sense of <a href="">dynamic programming</a> - where things will go *wrong* if the result is not stored.
 
 Parsl isn't trying to make either of the above implications
 though: app caching and memoization mean exactly the same
@@ -29,7 +29,7 @@ and if you're using the TaskVine executor, that can also
 deliberately discard results if it decides it would be better
 to recompute them.
 
-3. Checkpointing - to a lot of people, this means that
+* *Checkpointing* - to a lot of people, this means that
 the entire state of the workflow is saved to disk in a way
 that means the workflow can start up from where it left off.
 
