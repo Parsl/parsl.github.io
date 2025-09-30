@@ -16,7 +16,7 @@ requests (available together as <a href="https://github.com/Parsl/parsl/pull/353
 
 So first, those three terms you'll see:
 
-* *App caching* - Parsl can remember the result of a completed app and if you make a new invocation with the same parameters in the same workflow run, you will get that remembered result instead of another app execution. To me, the phrase *caching* implies the result might be forgottten and recomputed if memory management decides so. But that isn't the case with Parsl.
+* *App caching* - Parsl can remember the result of a completed app and if you make a new invocation with the same parameters in the same workflow run, you will get that remembered result instead of another app execution. To me, the phrase *caching* implies the result might be forgotten and recomputed if memory management decides so. But that isn't the case with Parsl.
 
 * *Memoization* - This is just another word for app caching. Some pieces of the code say memoization and some say app caching but that is spurious history from prototyping times. To me, implies algorithmic correctness more than caching in the sense of <a href="">dynamic programming</a> - where things will go *wrong* if the result is not stored. But that is *also* not the case with Parsl. If you invoke a task again before its first run result is ready, you'll get a re-execution. And Task Vine deliberatly can re-run tasks rather than moving data around, if it decides that is a better thing to do.
 
