@@ -7,7 +7,7 @@ excerpt: I've been reworking the checkpointing and memoization system
 
 Parsl uses three different terms that mean almost (but not
 quite) the same - checkpointing, memoization and app caching.
-I've been working the code around al three fo these for better modularity
+I've been working the code around al three of these for better modularity
 (aka better hackability) with some bug
 fixing thrown in. This has been ongoing at a slow pace for
 a long time but a recent talk at ParslFest 2025 got me paying
