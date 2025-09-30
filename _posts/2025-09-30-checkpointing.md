@@ -116,18 +116,9 @@ subclassing the new `BasicMemoizer` class, you can put in
 your own filters to decide what gets stored and what gets
 reused.
 
-A usecase for this is something like discovering a bug in
-your app code which manifests with certain parameters, so you
-want to re-run your whole workflow, but you know some
-checkpointed results are still valid.
+  A usecase for this is something like discovering a bug in your app code which manifests with certain parameters, so you want to re-run your whole workflow, but you know some checkpointed results are still valid.
 
-Another usecase - for checkpointing exceptions - is when you
-know the particular exception is "final" so will not go away
-by re-running the app. This is roughly the same use case as
-pluggable retry handlers (introduced in PR #2068) where you
-might regard some exceptions as transient and some as final
-in the eyes of the retry system (rather than the checkpoint
-system).
+  Another usecase - for checkpointing exceptions - is when you know the particular exception is "final" so will not go away by re-running the app. This is roughly the same use case as pluggable retry handlers (introduced in PR #2068) where you might regard some exceptions as transient and some as final in the eyes of the retry system (rather than the checkpoint system).
 
 * SQLite3-based out-of-memory memo/checkpointing: in the
 existing memo and checkpointing system, there are two
