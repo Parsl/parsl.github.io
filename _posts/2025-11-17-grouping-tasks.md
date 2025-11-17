@@ -5,7 +5,7 @@ title: Getting the first end-result faster with task priority
 excerpt: Reorder your tasks into groups to get the first end-result faster
 ---
 
-In an ealier post, I talked about using task priorities to minimise
+In <a href="/2025/11/08/priority.html">an earlier post</a>, I talked about using task priorities to minimise
 wasted time in a batch job. In this post, I'll talk about using the
 same mechanism for a different goal: getting the first end-result faster.
 
@@ -64,7 +64,7 @@ I'm going to talk about two (maybe three) prioritisation schemes to fix that.
 
 ## Prioritising by depth
 
-For the first scheme, tasks are prioritised to make tasks later in the workflow
+For the first scheme, tasks are prioritised to make tasks later in the task graph
 run first. Initially, only the first layer (A) tasks will be able to run, but
 as soon as one is completed, it will unlock some B tasks, which will in this
 scheme be run next (in preference to other A tasks), and those in turn will
@@ -150,18 +150,20 @@ lower than those schemes for the rest of the run.
 So there are three different schemes that work towards getting results
 earlier in the run.
 
-This post and my previous one have shown that at least these two quite
+This post and  <a href="/2025/11/08/priority.html">my previous one</a>
+have shown that at least these two quite
 different goals can be expressed through a very simple language of
-priorities attached to tasks.
+linear priorities attached to individually to tasks, using application
+level knowledge to generate the priorities but then without Parsl needing
+to understand anything more.
 
-I mentioned last  that some of the High Throughput Executor work was done
+I mentioned last time that some of the High Throughput Executor work was done
 as part of a project by Matthew Chung. The second half of that work looked at
-what kind of goals *cannot* be expressed as task priorities. An example of
-that is a goal to empty out batch jobs so they can be terminated early, 
+what kind of goals *cannot* be expressed as task priorities. An example
+is a goal to empty out unnecessary batch jobs so they can be terminated,
 rather than the High Throughput Executor's default behaviour of spreading
-work evenly across all running blocks.
+work evenly across all running jobs.
 
 <a href="https://github.com/Parsl/parsl/issues/3323">Parsl issue #3323</a>
 has a few other use cases related to this work.
-
 
