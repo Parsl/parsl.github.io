@@ -1,7 +1,7 @@
 ---
 layout: post
 author: Ben Clifford
-title: Parsl Observability (Draft)
+title: Parsl Observability
 excerpt: The past and future of observability in Parsl
 ---
 
