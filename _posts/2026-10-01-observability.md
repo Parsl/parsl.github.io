@@ -95,7 +95,7 @@ Broadly I've been building on the log based approach, bringing in useful feature
 
 I think that looks something like:
 
-1. What data to collect and where
+## What data to collect and where
 
 In Python code, Parsl (and other Python components) log using the built-in <code>logging</code> module. Each log message can be annotated with structured data, which can be written out alongside the human readable component. 
 
@@ -104,7 +104,7 @@ So I've been making log messages contain more structured data. For example, PR #
 As mentioned, other components don't write using the Python API but it is reasonable to push on them being parseable. Work Queue is a good example here of something that already does structured logging in its own way.
 
 
-2. How information is conveyed
+## How information is conveyed
 
 Log files on a networked filesystem are a fine start to this. In Python-land, the <code>logging</code> module supports configurable log handlers to send log data elsewhere. I've already added mechanisms specify that configuration across the various Python processes that Parsl launches (the LogConfig abstraction, in PR #4091 onwards), and implemented a JSON-in-file configuration which makes downstream machine processing easier (the tradeoff is less human readability in a simple text viewer)
 
@@ -113,7 +113,7 @@ This configuration abstraction should help support Diaspora, Chronolog, Flowcept
 Other components like Work Queue already output logs to files, and although they can't directly benefit from the new LogConfig mechanism, there is potential for parsing that data at-source rather than at-destination later on and sending over arbitrary Python loggers.
 
 
-3. How information is processed
+## How information is processed
 
 Moving to a log/event format doesn't dictate a particular storage mechanism. The lazy default is keeping records per-line on the filesystem and doing interesting stuff like joining/indexing at the analysis stage. For most Parsl runs that I've encountered, there are few enough log lines that loading everything into a process memory for analysis works ok.
 
@@ -121,7 +121,7 @@ There is opportunity for experimentation though. For example, I've also tried qu
 
 One big difference here compared to the kind of observability you'll find in the web/phone app applications crowd is that there are far more experimental pieces added in that do not buy into a coherent observability story. Application based observability will usually expect every component to be add hierarchical context onto every log message from an invoking application. In the bolt-pieces-together world of Parsl, that isn't a reasonable expectation, and so analysis must expect to be doing something a bit more like relational joins between log files (for example, to relate a Parsl task in a Parsl log file with a Work Queue task in a Work Queue log file).
 
-4. How information is presented
+## How information is presented
 
 As a short term concrete motivating example, I worked on implementing something like <code>parsl-visualize</code>, additionally incorporating analyses that have been done elsewhere (for example, block load graphs used to analyse scaling in efficiency, and task duration histograms often desired by experimental physicists).
 
